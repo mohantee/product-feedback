@@ -8,11 +8,6 @@ import {
 } from "./feedback.service";
 
 export async function createFeedbackHandler(req: Request, res: Response) {
-  if (!req.auth)
-    return res
-      .status(400)
-      .send({ message: "Please login to create a feedback" });
-
   const userId = req.auth.userId;
   req.body.userId = userId;
 
@@ -30,23 +25,36 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
     const feedback = await getFeedbackById(id);
     return res.status(200).send(feedback);
   } catch (error) {
-    res.status(400).send(error);
+    return res.status(400).send(error);
   }
 }
 
-export async function getAllFeedbackHandler(_: Response, res: Response) {
+export async function getAllFeedbackHandler(_: Request, res: Response) {
   const feedbacks = await getAllFeedback();
-  res.status(200).send(feedbacks);
+  return res.status(200).send(feedbacks);
 }
 
 export async function updateFeedbackHandler(req: Request, res: Response) {
   const id = parseInt(req.params.id);
-  const { data } = req.body;
+
+  const userId = req.auth.userId;
+  req.body.userId = userId;
+
+  const body = req.body;
   try {
-    const feedback = await updateFeedback(id, data);
-    res.status(200).send(feedback);
+    const existingFeedback = await getFeedbackById(id);
+
+    if (!existingFeedback)
+      return res.status(400).send({ message: "Feedback ID doesn't exist" });
+
+    if (!(existingFeedback.userId === body.userId)) {
+      return res.status(400).send({ message: "Authentication error" });
+    }
+
+    const feedback = await updateFeedback(id, body);
+    return res.status(200).send(feedback);
   } catch (error) {
-    res.status(400).send(error);
+    return res.status(400).send(error);
   }
 }
 
@@ -54,8 +62,8 @@ export async function deleteFeedbackHander(req: Request, res: Response) {
   const id = parseInt(req.params.id);
   try {
     const feedback = await deleteFeedback(id);
-    res.status(200).send(feedback);
+    return res.status(200).send(feedback);
   } catch (error) {
-    res.status(400).send(error);
+    return res.status(400).send(error);
   }
 }

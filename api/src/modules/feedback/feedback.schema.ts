@@ -35,6 +35,21 @@ export const createFeedbackSchema = z.object({
 });
 
 export const feedbackByIdSchema = z.object({
+  body: z.object({}),
+  query: z.object({}),
+  params: z.object({
+    id: z.string({ required_error: "Feedback ID is required" }),
+  }),
+});
+
+export const updateFeedbackSchema = z.object({
+  body: z.object({
+    title: z.string({ required_error: "Title is required" }),
+    content: z.string({ required_error: "Content is required" }),
+    category: categorySchema,
+    status: statusSchema,
+  }),
+  query: z.object({}),
   params: z.object({
     id: z.string({ required_error: "Feedback ID is required" }),
   }),
