@@ -10,52 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  atAddress String     @unique
-  name      String?
-  feedbacks Feedback[]
-  comments  Comment[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
-}
-
 model Feedback {
-  id         Int       @id @default(autoincrement())
-  upvotes    Int?      @default(0)
-  title      String
-  content    String
-  comments   Comment[]
-  author     User      @relation(fields: [authorId], references: [id])
-  authorId   Int
-  category   Category  @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  status     Status    @relation(fields: [statusId], references: [id])
-  statusId   Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-}
-
-model Category {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  feedbacks Feedback[]
-}
-
-model Status {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  feedbacks Feedback[]
+  id        Int       @id @default(autoincrement())
+  upvotes   Int?      @default(0)
+  title     String
+  content   String
+  userId    String
+  comments  Comment[]
+  category  String
+  status    String
+  createdAt DateTime  @default(now())
 }
 
 model Comment {
   id            Int       @id @default(autoincrement())
   content       String
-  author        User      @relation(fields: [authorId], references: [id])
-  authorId      Int
   feedback      Feedback  @relation(fields: [feedbackId], references: [id])
   feedbackId    Int
+  userId        String
   predecessorId Int?
   predecessor   Comment?  @relation("CommentChain", fields: [predecessorId], references: [id])
   replies       Comment[] @relation("CommentChain")
