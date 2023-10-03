@@ -6,6 +6,7 @@ import {
   getFeedbackById,
   updateFeedback,
 } from "./feedback.service";
+import { countFeedbackComments } from "../../utils/countNodes";
 
 export async function createFeedbackHandler(req: Request, res: Response) {
   const userId = req.auth.userId;
@@ -23,7 +24,8 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
   const id = parseInt(req.params.id);
   try {
     const feedback = await getFeedbackById(id);
-    return res.status(200).send(feedback);
+    const commentCount = countFeedbackComments(feedback?.comments);
+    return res.status(200).send({ ...feedback, commentCount });
   } catch (error) {
     return res.status(400).send(error);
   }

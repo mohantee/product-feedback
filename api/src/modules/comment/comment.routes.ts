@@ -1,4 +1,3 @@
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import express from "express";
 import { validate } from "../../middlewares/validate";
 import { createCommentSchema } from "./comment.schema";

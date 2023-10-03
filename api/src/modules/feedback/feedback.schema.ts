@@ -23,12 +23,14 @@ const categorySchema = z.union(
 );
 
 export const createFeedbackSchema = z.object({
-  body: z.object({
-    title: z.string({ required_error: "Title is required" }),
-    content: z.string({ required_error: "Content is required" }),
-    category: categorySchema,
-    status: statusSchema,
-  }),
+  body: z
+    .object({
+      title: z.string({ required_error: "Title is required" }),
+      content: z.string({ required_error: "Content is required" }),
+      category: categorySchema,
+      status: statusSchema,
+    })
+    .strict(),
   query: z.object({}),
   params: z.object({}),
   auth: z.any(),
@@ -43,12 +45,14 @@ export const feedbackByIdSchema = z.object({
 });
 
 export const updateFeedbackSchema = z.object({
-  body: z.object({
-    title: z.string({ required_error: "Title is required" }),
-    content: z.string({ required_error: "Content is required" }),
-    category: categorySchema,
-    status: statusSchema,
-  }),
+  body: z
+    .object({
+      title: z.string({ required_error: "Title is required" }),
+      content: z.string({ required_error: "Content is required" }),
+      category: categorySchema,
+      status: statusSchema,
+    })
+    .strict(),
   query: z.object({}),
   params: z.object({
     id: z.string({ required_error: "Feedback ID is required" }),

@@ -25,8 +25,8 @@ model Feedback {
 model Comment {
   id            Int       @id @default(autoincrement())
   content       String
-  feedback      Feedback  @relation(fields: [feedbackId], references: [id])
-  feedbackId    Int
+  feedback      Feedback? @relation(fields: [feedbackId], references: [id])
+  feedbackId    Int?
   userId        String
   predecessorId Int?
   predecessor   Comment?  @relation("CommentChain", fields: [predecessorId], references: [id])

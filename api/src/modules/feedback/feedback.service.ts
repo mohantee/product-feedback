@@ -1,4 +1,4 @@
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
 type FeedbackInput = {
   title: string;
@@ -15,9 +15,16 @@ export function createFeedback(data: FeedbackInput) {
 }
 
 export function getFeedbackById(id: number) {
-  return prisma.feedback.findFirstOrThrow({
+  return prisma.feedback.findUnique({
     where: {
       id,
+    },
+    include: {
+      comments: {
+        include: {
+          replies: true,
+        },
+      },
     },
   });
 }
