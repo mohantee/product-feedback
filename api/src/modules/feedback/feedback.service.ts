@@ -97,3 +97,31 @@ export function updateFeedback(id: number, data: FeedbackInput) {
 export function deleteFeedback(id: number) {
   return prisma.feedback.delete({ where: { id } });
 }
+
+export async function getRoadmap() {
+  const plannedCount = await prisma.feedback.count({
+    where: {
+      status: "planned",
+    },
+  });
+
+  const inProgressCount = await prisma.feedback.count({
+    where: {
+      status: "in_progress",
+    },
+  });
+
+  const liveCount = await prisma.feedback.count({
+    where: {
+      status: "live",
+    },
+  });
+
+  const roadmapStatus = {
+    planned_count: plannedCount,
+    in_progress_count: inProgressCount,
+    live_count: liveCount,
+  };
+
+  return roadmapStatus;
+}

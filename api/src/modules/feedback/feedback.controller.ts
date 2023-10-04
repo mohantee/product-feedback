@@ -5,6 +5,7 @@ import {
   getAllFeedback,
   getFeedbackById,
   getFeedbackByQuery,
+  getRoadmap,
   updateFeedback,
 } from "./feedback.service";
 import {
@@ -20,7 +21,7 @@ export async function createFeedbackHandler(req: Request, res: Response) {
     const feedback = await createFeedback(req.body);
     return res.status(201).send(feedback);
   } catch (error) {
-    return res.status(400).send(error);
+    return res.status(500).send(error);
   }
 }
 
@@ -31,7 +32,7 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
     const commentCount = countFeedbackComments(feedback?.comments);
     return res.status(200).send({ ...feedback, commentCount });
   } catch (error) {
-    return res.status(400).send(error);
+    return res.status(500).send(error);
   }
 }
 
@@ -92,7 +93,7 @@ export async function getFeedbackByQueryHandler(req: Request, res: Response) {
       return res.status(200).send(sortedFeedbacks);
     }
   } catch (error) {
-    return res.status(400).send(error);
+    return res.status(500).send(error);
   }
 }
 
@@ -112,16 +113,16 @@ export async function updateFeedbackHandler(req: Request, res: Response) {
     const existingFeedback = await getFeedbackById(id);
 
     if (!existingFeedback)
-      return res.status(400).send({ message: "Feedback ID doesn't exist" });
+      return res.status(500).send({ message: "Feedback ID doesn't exist" });
 
     if (!(existingFeedback.userId === body.userId)) {
-      return res.status(400).send({ message: "Authentication error" });
+      return res.status(500).send({ message: "Authentication error" });
     }
 
     const feedback = await updateFeedback(id, body);
     return res.status(200).send(feedback);
   } catch (error) {
-    return res.status(400).send(error);
+    return res.status(500).send(error);
   }
 }
 
@@ -131,6 +132,15 @@ export async function deleteFeedbackHander(req: Request, res: Response) {
     const feedback = await deleteFeedback(id);
     return res.status(200).send(feedback);
   } catch (error) {
-    return res.status(400).send(error);
+    return res.status(500).send(error);
+  }
+}
+
+export async function getRoadmapHandler(_: Request, res: Response) {
+  try {
+    const roadmap = await getRoadmap();
+    return res.status(200).send(roadmap);
+  } catch (error) {
+    return res.status(500).send(error);
   }
 }

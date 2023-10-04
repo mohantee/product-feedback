@@ -1,7 +1,12 @@
 import { z } from "zod";
 
 const statusSchema = z.union(
-  [z.literal("planned"), z.literal("in_progress"), z.literal("live")],
+  [
+    z.literal("planned"),
+    z.literal("in_progress"),
+    z.literal("live"),
+    z.literal("suggestion"),
+  ],
   {
     required_error: 'Status must be one of "planned", "in_progress", or "live"',
   },
