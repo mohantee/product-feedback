@@ -22,6 +22,10 @@ const categorySchema = z.union(
   },
 );
 
+export const categoryFilterSchema = z.array(
+  z.enum(["all", "ui", "ux", "enhancement", "feature", "bug"]),
+);
+
 export const createFeedbackSchema = z.object({
   body: z
     .object({
@@ -42,6 +46,27 @@ export const feedbackByIdSchema = z.object({
   params: z.object({
     id: z.string({ required_error: "Feedback ID is required" }),
   }),
+});
+
+export const feedbackByQuerySchema = z.object({
+  body: z.object({}),
+  query: z.object({
+    filter: z
+      .string()
+      .regex(/^\s*\[\s*(?:"[^"]*"\s*(?:,\s*"[^"]*"\s*)*)?\]\s*$/)
+      .optional(),
+    sort: z
+      .union([z.literal("comments"), z.literal("upvotes")], {
+        required_error: "You must sort by either comments or upvotes",
+      })
+      .optional(),
+    order: z
+      .union([z.literal("asc"), z.literal("desc")], {
+        required_error: "You must either sort by 'asc' or 'desc'",
+      })
+      .optional(),
+  }),
+  params: z.object({}),
 });
 
 export const updateFeedbackSchema = z.object({
