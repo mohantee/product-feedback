@@ -53,14 +53,16 @@ export const feedbackByIdSchema = z.object({
   }),
 });
 
+const categoryFilterStringSchema = z
+  .string()
+  .regex(/^\s*\[\s*(?:"[^"]*"\s*(?:,\s*"[^"]*"\s*)*)?\]\s*$/)
+  .optional();
+
 export const feedbackByQuerySchema = z
   .object({
     body: z.object({}),
     query: z.object({
-      filter: z
-        .string()
-        .regex(/^\s*\[\s*(?:"[^"]*"\s*(?:,\s*"[^"]*"\s*)*)?\]\s*$/)
-        .optional(),
+      filter: categoryFilterStringSchema,
       sort: z
         .union([z.literal("comments"), z.literal("upvotes")], {
           required_error: "You must sort by either comments or upvotes",
@@ -76,6 +78,8 @@ export const feedbackByQuerySchema = z
     auth: z.undefined(),
   })
   .strict();
+
+export type FeedbackFilter = z.infer<typeof feedbackByQuerySchema>;
 
 export const updateFeedbackSchema = z.object({
   body: z

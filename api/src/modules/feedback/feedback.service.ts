@@ -1,5 +1,5 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
-import { categoryFilterSchema } from "./feedback.schema";
 
 interface FeedbackInput {
   title: string;
@@ -37,12 +37,13 @@ export function getFeedbackById(id: number) {
   });
 }
 
-export function getFeedbackByQuery(query: any) {
-  let { filter, sort, order } = query;
-  if (filter) {
-    filter = JSON.parse(filter);
-    categoryFilterSchema.parse(filter);
-  }
+export function getFeedbackByQuery(data: any) {
+  let { filter, sort, order } = data;
+  console.log(filter, sort, order);
+
+  // HACK! see: https://github.com/prisma/prisma/issues/11104#issuecomment-1062556068
+  if (order === "asc") order = Prisma.SortOrder.asc;
+  if (order === "desc") order = Prisma.SortOrder.desc;
 
   return prisma.feedback.findMany({
     include: {
@@ -58,7 +59,9 @@ export function getFeedbackByQuery(query: any) {
       },
     },
     orderBy: {
-      [sort]: order,
+      [sort]: {
+        _count: order,
+      },
     },
   });
 }

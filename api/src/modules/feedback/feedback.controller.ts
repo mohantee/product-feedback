@@ -15,6 +15,7 @@ import {
   countFeedbackComments,
   sortFeedbacksByCommentCount,
 } from "./feedback.utils";
+import { FeedbackFilter } from "./feedback.schema";
 
 export async function createFeedbackHandler(req: Request, res: Response) {
   const userId = req.auth.userId;
@@ -46,6 +47,19 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
 
 export async function getFeedbackByQueryHandler(req: Request, res: Response) {
   let query = req.query;
+
+  // assert ParsedQs types to string
+  if (query.filter) {
+    const filter = query.filter as string;
+    query.filter = JSON.parse(filter);
+  }
+  if (query.sort) {
+    query.sort = query.sort as string;
+  }
+  if (query.order) {
+    query.order = query.order as string;
+  }
+
   try {
     // return every feedback if no query params are set
     if (!query.sort && !query.filter) {
