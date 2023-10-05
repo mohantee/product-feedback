@@ -5,8 +5,11 @@ import {
   getAllFeedback,
   getFeedbackById,
   getFeedbackByQuery,
+  getUpvotedFeedback,
   getRoadmap,
   updateFeedback,
+  upvoteFeedback,
+  deleteUpvotedFeedback,
 } from "./feedback.service";
 import {
   countFeedbackComments,
@@ -19,6 +22,7 @@ export async function createFeedbackHandler(req: Request, res: Response) {
 
   try {
     const feedback = await createFeedback(req.body);
+    await upvoteFeedback(feedback.id, feedback.userId);
     return res.status(201).send(feedback);
   } catch (error) {
     return res.status(500).send(error);
@@ -30,7 +34,11 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
   try {
     const feedback = await getFeedbackById(id);
     const commentCount = countFeedbackComments(feedback?.comments);
-    return res.status(200).send({ ...feedback, commentCount });
+    const feedbackWithCommentCount = {
+      ...feedback,
+      _count: { ...feedback?._count, comments: commentCount },
+    };
+    return res.status(200).send(feedbackWithCommentCount);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -49,7 +57,7 @@ export async function getFeedbackByQueryHandler(req: Request, res: Response) {
         // if the client requests all feedbacks
         const { comments, ...rest } = {
           ...feedback,
-          commentCount: feedbackCommentCount,
+          _count: { comments: feedbackCommentCount },
         };
         return rest;
       });
@@ -76,19 +84,15 @@ export async function getFeedbackByQueryHandler(req: Request, res: Response) {
         const feedbackCommentCount = countFeedbackComments(feedback.comments);
         const feedbackWithCommentCount = {
           ...feedback,
-          commentCount: feedbackCommentCount,
+          _count: { comments: feedbackCommentCount },
         };
         return feedbackWithCommentCount;
       });
-
-      console.log(feedbacksWithCommentCount);
 
       const sortedFeedbacks = sortFeedbacksByCommentCount(
         feedbacksWithCommentCount,
         order,
       );
-
-      console.log(sortedFeedbacks);
 
       return res.status(200).send(sortedFeedbacks);
     }
@@ -142,5 +146,54 @@ export async function getRoadmapHandler(_: Request, res: Response) {
     return res.status(200).send(roadmap);
   } catch (error) {
     return res.status(500).send(error);
+  }
+}
+
+export async function upvoteFeedbackHandler(req: Request, res: Response) {
+  if (!req.auth.userId)
+    return res.status(400).send({ error: "Unauthenticated request" });
+  const feedbackId = parseInt(req.params.id);
+  const userId = req.auth.userId;
+
+  try {
+    // check if user has already upvoted the feedback
+    const isUpvoted = await getUpvotedFeedback(feedbackId, userId);
+
+    // return if user has already upvoted the feeback
+    if (isUpvoted)
+      return res
+        .status(400)
+        .send({ error: "User has already upvoted the feedback" });
+
+    // otherwise post the upvote
+    const upvotedFeedback = await upvoteFeedback(feedbackId, userId);
+    return res.status(200).send(upvotedFeedback);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
+
+export async function deupvoteFeedbackHandler(req: Request, res: Response) {
+  if (!req.auth.userId)
+    return res.status(400).send({ error: "Unauthenticated request" });
+  const feedbackId = parseInt(req.params.id);
+  const userId = req.auth.userId;
+
+  try {
+    // check if user has already upvoted the feedback
+    const isUpvoted = await getUpvotedFeedback(feedbackId, userId);
+
+    // if user has not upvoted the feedback, return appropriate response
+    if (!isUpvoted)
+      return res
+        .status(400)
+        .send({ error: "User has not upvoted the feedback" });
+
+    const upvoteId = isUpvoted.id;
+    // otherwise remove the upvote
+    const deletedFeedback = await deleteUpvotedFeedback(upvoteId);
+    return res.status(200).send(deletedFeedback);
+  } catch (error) {
+    return res.status(500).send({ error });
   }
 }

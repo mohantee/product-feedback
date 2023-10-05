@@ -9,10 +9,12 @@ interface FeedbackInput {
   userId: string;
 }
 
-export function createFeedback(data: FeedbackInput) {
-  return prisma.feedback.create({
+export async function createFeedback(data: FeedbackInput) {
+  const feedback = await prisma.feedback.create({
     data,
   });
+
+  return feedback;
 }
 
 export function getFeedbackById(id: number) {
@@ -24,6 +26,11 @@ export function getFeedbackById(id: number) {
       comments: {
         include: {
           replies: true,
+        },
+      },
+      _count: {
+        select: {
+          upvotes: true,
         },
       },
     },
@@ -124,4 +131,30 @@ export async function getRoadmap() {
   };
 
   return roadmapStatus;
+}
+
+export function upvoteFeedback(feedbackId: number, userId: string) {
+  return prisma.upvote.create({
+    data: {
+      feedbackId,
+      userId,
+    },
+  });
+}
+
+export async function getUpvotedFeedback(feedbackId: number, userId: string) {
+  return prisma.upvote.findFirst({
+    where: {
+      feedbackId,
+      userId,
+    },
+  });
+}
+
+export async function deleteUpvotedFeedback(id: number) {
+  return prisma.upvote.delete({
+    where: {
+      id,
+    },
+  });
 }

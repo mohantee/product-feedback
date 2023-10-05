@@ -19,7 +19,7 @@ model Feedback {
   category  String
   status    String
   createdAt DateTime  @default(now())
-  Upvote    Upvote[]
+  upvotes   Upvote[]
 }
 
 model Comment {
