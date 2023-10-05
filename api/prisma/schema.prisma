@@ -12,7 +12,6 @@ datasource db {
 
 model Feedback {
   id        Int       @id @default(autoincrement())
-  upvotes   Int?      @default(0)
   title     String
   content   String
   userId    String
@@ -20,6 +19,7 @@ model Feedback {
   category  String
   status    String
   createdAt DateTime  @default(now())
+  Upvote    Upvote[]
 }
 
 model Comment {
@@ -33,4 +33,11 @@ model Comment {
   replies       Comment[] @relation("CommentChain")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+}
+
+model Upvote {
+  id         Int      @id @default(autoincrement())
+  userId     String
+  feedbackId Int
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
 }
