@@ -9,7 +9,7 @@ import {
 import {
   createFeedbackHandler,
   deleteFeedbackHander,
-  getFeedbackByQueryHandler,
+  getAllFeedbackByQueryHandler,
   getFeedbackByIdHandler,
   updateFeedbackHandler,
   getRoadmapHandler,
@@ -34,7 +34,7 @@ feedbackRouter
     ClerkExpressRequireAuth(),
     createFeedbackHandler,
   )
-  .get(validate(feedbackByQuerySchema), getFeedbackByQueryHandler);
+  .get(validate(feedbackByQuerySchema), getAllFeedbackByQueryHandler);
 
 feedbackRouter
   .route("/:id")

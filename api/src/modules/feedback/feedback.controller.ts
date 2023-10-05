@@ -4,7 +4,7 @@ import {
   deleteFeedback,
   getAllFeedback,
   getFeedbackById,
-  getFeedbackByQuery,
+  getAllFeedbackByQuery,
   getUpvotedFeedback,
   getRoadmap,
   updateFeedback,
@@ -12,10 +12,10 @@ import {
   deleteUpvotedFeedback,
 } from "./feedback.service";
 import {
-  countFeedbackComments,
-  sortFeedbacksByCommentCount,
+  getCommentCount,
+  getFeedbacksWithCommentCount,
+  sortByCommentCount,
 } from "./feedback.utils";
-import { FeedbackFilter } from "./feedback.schema";
 
 export async function createFeedbackHandler(req: Request, res: Response) {
   const userId = req.auth.userId;
@@ -34,10 +34,12 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
   const id = parseInt(req.params.id);
   try {
     const feedback = await getFeedbackById(id);
-    const commentCount = countFeedbackComments(feedback?.comments);
+    if (!feedback)
+      return res.status(400).send({ message: "Feedback ID doesn't exist" });
+    const commentCount = getCommentCount(feedback.comments);
     const feedbackWithCommentCount = {
       ...feedback,
-      _count: { ...feedback?._count, comments: commentCount },
+      _count: { ...feedback._count, comments: commentCount },
     };
     return res.status(200).send(feedbackWithCommentCount);
   } catch (error) {
@@ -45,65 +47,37 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
   }
 }
 
-export async function getFeedbackByQueryHandler(req: Request, res: Response) {
+export async function getAllFeedbackByQueryHandler(
+  req: Request,
+  res: Response,
+) {
   let query = req.query;
 
-  // assert ParsedQs types to string
-  if (query.filter) {
-    const filter = query.filter as string;
-    query.filter = JSON.parse(filter);
-  }
-  if (query.sort) {
-    query.sort = query.sort as string;
-  }
-  if (query.order) {
-    query.order = query.order as string;
-  }
-
   try {
-    // return every feedback if no query params are set
     if (!query.sort && !query.filter) {
       const feedbacks = await getAllFeedback();
-      const feedbacksWithCommentCount = feedbacks.map((feedback) => {
-        const feedbackCommentCount = countFeedbackComments(feedback.comments);
-
-        // strip comments property which is not required
-        // if the client requests all feedbacks
-        const { comments, ...rest } = {
-          ...feedback,
-          _count: { comments: feedbackCommentCount },
-        };
-        return rest;
-      });
+      const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
       return res.status(200).send(feedbacksWithCommentCount);
     }
 
-    // check if need to sort by upvotes
-    if (query.sort === "upvotes") {
-      const feedbacks = await getFeedbackByQuery(query);
-      return res.status(200).send(feedbacks);
+    if (!query.sort && query.filter) {
+      const feedbacks = await getAllFeedbackByQuery(query);
+      const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
+      return res.status(200).send(feedbacksWithCommentCount);
     }
 
-    // otherwise create custom logic to sort by comments since
-    // prisma has no support for recursively counting nested
-    // relations
-    else if (query.sort === "comments") {
-      const { order } = query;
+    if (query.sort === "upvotes") {
+      const feedbacks = await getAllFeedbackByQuery(query);
+      return res.status(200).send(feedbacks);
+    } else if (query.sort === "comments") {
+      const order = query.order as "asc" | "desc";
       query.sort = undefined;
       query.order = undefined;
-      const feedbacks = await getFeedbackByQuery(query);
+      const feedbacks = await getAllFeedbackByQuery(query);
 
-      // get number of comments in each feedback
-      const feedbacksWithCommentCount = feedbacks.map((feedback) => {
-        const feedbackCommentCount = countFeedbackComments(feedback.comments);
-        const feedbackWithCommentCount = {
-          ...feedback,
-          _count: { comments: feedbackCommentCount },
-        };
-        return feedbackWithCommentCount;
-      });
+      const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
 
-      const sortedFeedbacks = sortFeedbacksByCommentCount(
+      const sortedFeedbacks = sortByCommentCount(
         feedbacksWithCommentCount,
         order,
       );

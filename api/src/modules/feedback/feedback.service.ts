@@ -37,13 +37,32 @@ export function getFeedbackById(id: number) {
   });
 }
 
-export function getFeedbackByQuery(data: any) {
+export function getAllFeedbackByQuery(data: any) {
   let { filter, sort, order } = data;
-  console.log(filter, sort, order);
+  let orderBy;
+
+  if (data.filter) {
+    let _filter = data.filter as string;
+    filter = JSON.parse(_filter);
+  }
+  if (data.sort) {
+    sort = data.sort as string;
+  }
+  if (data.order) {
+    order = data.order as string;
+  }
 
   // HACK! see: https://github.com/prisma/prisma/issues/11104#issuecomment-1062556068
   if (order === "asc") order = Prisma.SortOrder.asc;
   if (order === "desc") order = Prisma.SortOrder.desc;
+
+  if (sort === "upvotes")
+    orderBy = {
+      [sort]: {
+        _count: order,
+      },
+    };
+  else if (sort === "comments") orderBy = undefined;
 
   return prisma.feedback.findMany({
     include: {
@@ -52,17 +71,18 @@ export function getFeedbackByQuery(data: any) {
           replies: true,
         },
       },
+      _count: {
+        select: {
+          upvotes: true,
+        },
+      },
     },
     where: {
       category: {
         in: filter,
       },
     },
-    orderBy: {
-      [sort]: {
-        _count: order,
-      },
-    },
+    orderBy,
   });
 }
 
@@ -88,6 +108,11 @@ export function getAllFeedback() {
       comments: {
         include: {
           replies: true,
+        },
+      },
+      _count: {
+        select: {
+          upvotes: true,
         },
       },
     },
