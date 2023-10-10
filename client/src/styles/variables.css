@@ -1,0 +1,27 @@
+:root {
+
+  /* COLORS */
+  --clr-primary: 282 83% 52%;
+  --clr-secondary: 230 76% 59%;
+  --clr-secondary-lighter: 204 94% 68%;
+  --clr-tertiary: 14 83% 74%;
+  --clr-light-300: 0 0 100%;
+  --clr-light-400: 230 60% 98%;
+  --clr-light-500: 231 100% 97%;
+  --clr-dark-300: 224 20% 49%;
+  --clr-dark-400: 231 33% 34%;
+  --clr-dark-500: 230 31% 31%;
+
+  /* TYPOGRAPHY */
+  --fs-heading-100: 0.875rem;
+  --fs-heading-200: 1.125rem;
+  --fs-heading-300: 1.25rem;
+  --fs-heading-400: 1.5rem;
+
+  --fs-body-200: 0.8125rem;
+  --fs-body-300: 0.9375rem;
+  --fs-body-400: 1rem;
+
+  --ff-primary: 'Jost', system-ui, serif;
+}
+

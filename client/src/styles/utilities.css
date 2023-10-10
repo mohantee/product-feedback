@@ -1,0 +1,108 @@
+/* ====== */
+/* COLORS */
+/* ====== */
+
+.text-primary {
+  color: hsl(var(--clr-primary));
+}
+
+.text-secondary {
+  color: hsl(var(--clr-secondary));
+}
+
+.text-dark-300 {
+  color: hsl(var(--clr-dark-300));
+}
+
+.text-dark-400 {
+  color: hsl(var(--clr-dark-400));
+}
+
+.bg-light-300 {
+  color: hsl(var(--clr-light-300));
+}
+
+.bg-light-400 {
+  color: hsl(var(--clr-light-400));
+}
+
+.bg-light-500 {
+  color: hsl(var(--clr-light-500));
+}
+
+/* ========== */
+/* TYPOGRAPHY */
+/* ========== */
+
+.fs-heading-100 {
+  font-size: var(--fs-heading-100);
+  letter-spacing: -0.2px;
+  font-weight: 700;
+}
+
+.fs-heading-200 {
+  font-size: var(--fs-heading-200);
+  letter-spacing: -0.25px;
+  font-weight: 700;
+}
+
+.fs-heading-300 {
+  font-size: var(--fs-heading-300);
+  letter-spacing: -0.25px;
+  font-weight: 700;
+}
+
+.fs-heading-400 {
+  font-size: var(--fs-heading-400);
+  letter-spacing: -0.33px;
+  font-weight: 700;
+}
+
+.fs-body-200 {
+  font-size: var(--fs-body-200);
+  font-weight: 600;
+}
+
+.fs-body-300 {
+  font-size: var(--fs-body-300);
+  font-weight: 400;
+}
+
+.fs-body-400 {
+  font-size: var(--fs-body-400);
+  font-weight: 400;
+}
+
+/* ====== */
+/* LAYOUT */
+/* ====== */
+
+.flex {
+  display: flex;
+  gap: var(--gap, 1rem);
+}
+
+.grid {
+  display: grid;
+  gap: var(--gap, 1rem);
+}
+
+.flow > *:where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1rem);
+}
+
+/* ==== */
+/* MISC */
+/* ==== */
+
+.sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
