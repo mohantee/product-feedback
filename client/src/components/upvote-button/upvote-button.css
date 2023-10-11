@@ -1,0 +1,77 @@
+.chip {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem;
+  transition: background-color 0.1s ease;
+}
+
+.chip__text {
+  font-size: var(--fs-body-200);
+  font-weight: 700;
+}
+
+.chip__icon {
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.chip[aria-pressed="true"] {
+  background-color: hsl(var(--clr-secondary));
+
+  & .chip__text,
+  & .chip__icon {
+    color: hsl(var(--clr-light-300));
+  }
+
+  & .chip__icon {
+    transition: transform 0.2s ease;
+  }
+}
+
+.chip[aria-pressed="false"] {
+  background-color: hsl(var(--clr-light-400));
+
+  & .chip__text {
+    color: hsl(var(--clr-dark-400));
+  }
+  & .chip__icon {
+    color: hsl(var(--clr-secondary));
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .chip[aria-pressed="false"]:hover,
+  .chip[aria-pressed="true"]:hover {
+    background-color: hsl(var(--clr-secondary-20pc));
+  }
+
+  .chip[aria-pressed="true"]:hover .chip__text {
+    color: hsl(var(--clr-dark-400));
+  }
+
+  .chip[aria-pressed="true"]:hover .chip__icon {
+    color: hsl(var(--clr-secondary));
+  }
+
+  .chip[aria-pressed="true"]:hover .chip__icon {
+    transform: rotate(-180deg);
+  }
+
+  .chip[aria-pressed="false"]:hover .chip__icon {
+    animation-name: jump;
+    animation-duration: 0.3s;
+  }
+}
+
+@keyframes jump {
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
