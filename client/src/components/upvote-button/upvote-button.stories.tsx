@@ -13,9 +13,17 @@ export default meta;
 
 type Story = StoryObj<typeof UpvoteButton>;
 
-export const Primary: Story = {
+export const Unchecked: Story = {
   args: {
-    text: "99",
+    count: 99,
+    isPressed: false,
+    icon: <FaChevronUp />,
+  },
+};
+
+export const Checked: Story = {
+  args: {
+    count: 99,
     isPressed: true,
     icon: <FaChevronUp />,
   },
