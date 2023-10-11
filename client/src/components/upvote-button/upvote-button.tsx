@@ -15,7 +15,7 @@ export function UpvoteButton(props: Props) {
     <Toggle.Root
       className="chip"
       aria-label={`${count} upvotes`}
-      aria-pressed={isPressed}
+      pressed={isPressed}
     >
       <span className="chip__icon">{icon}</span>
       <p className="chip__text ">{count}</p>

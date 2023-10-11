@@ -33,7 +33,7 @@
 }
 
 .chip[aria-pressed="false"] {
-  background-color: hsl(var(--clr-light-400));
+  background-color: hsl(var(--clr-light-500));
 
   & .chip__text {
     color: hsl(var(--clr-dark-400));
