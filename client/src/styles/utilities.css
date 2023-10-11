@@ -10,6 +10,10 @@
   color: hsl(var(--clr-secondary));
 }
 
+.text-white-400 {
+  color: hsl(var(--clr-light-400));
+}
+
 .text-dark-300 {
   color: hsl(var(--clr-dark-300));
 }
@@ -18,16 +22,24 @@
   color: hsl(var(--clr-dark-400));
 }
 
+.bg-primary {
+  background-color: hsl(var(--clr-primary));
+}
+
 .bg-light-300 {
-  color: hsl(var(--clr-light-300));
+  background-color: hsl(var(--clr-light-300));
 }
 
 .bg-light-400 {
-  color: hsl(var(--clr-light-400));
+  background-color: hsl(var(--clr-light-400));
 }
 
 .bg-light-500 {
-  color: hsl(var(--clr-light-500));
+  background-color: hsl(var(--clr-light-500));
+}
+
+.bg-dark-400 {
+  background-color: hsl(var(--clr-dark-400));
 }
 
 /* ========== */
