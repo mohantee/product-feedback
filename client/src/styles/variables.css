@@ -10,8 +10,10 @@
   --clr-light-500: 231 100% 97%;
   --clr-dark-300: 224 20% 49%;
   --clr-dark-400: 231 33% 34%;
+  --clr-dark-400-15pc: var(--clr-dark-400) / 0.15;
   --clr-dark-500: 230 31% 31%;
   --clr-alert: 0 67% 53%;
+  --box-shadow: 0px 10px 40px -7px rgba(55, 63, 104, 0.35);
 
   /* TYPOGRAPHY */
   --fs-heading-100: 0.875rem;
