@@ -1,25 +1,18 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { FaCheck, FaChevronDown } from "react-icons/fa";
 import "./dropdown.css";
-import { ReactElement } from "react";
-
-interface DropdownItem {
-  option: "feature" | "ui" | "ux" | "enhancement" | "bug";
-  name: "Feature" | "UI" | "UX" | "Enhancement" | "Bug";
-}
+import { Dispatch, ReactElement, SetStateAction } from "react";
 
 interface Props {
-  defaultValue: string;
   ariaLabel: string;
-  value: DropdownItem;
-  onValueChange: (value: string) => void;
+  value: string;
+  onValueChange: Dispatch<SetStateAction<any>>;
   trigger?: ReactElement;
-  values: DropdownItem[];
+  values: string[];
 }
 
 export function Dropdown(props: Props) {
-  const { defaultValue, values, ariaLabel, value, onValueChange, trigger } =
-    props;
+  const { values, ariaLabel, value, onValueChange, trigger } = props;
 
   const defaultTrigger = (
     <div className="dropdown__trigger">
@@ -27,7 +20,7 @@ export function Dropdown(props: Props) {
         className="dropdown__input-field"
         role="combobox"
         type="text"
-        value={value.name}
+        value={value}
         onChange={() => {}}
         aria-label={ariaLabel}
         readOnly
@@ -43,21 +36,16 @@ export function Dropdown(props: Props) {
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content align="start" className="dropdown__content">
-          <DropdownMenu.RadioGroup
-            defaultValue={defaultValue}
-            value={value.name}
-            onValueChange={onValueChange}
-          >
-            {values.map((item, i) => {
+          <DropdownMenu.RadioGroup value={value} onValueChange={onValueChange}>
+            {values.map((option, i) => {
               const lastIndex = values.length - 1;
               return (
-                <div key={item.option}>
+                <div key={option}>
                   <DropdownMenu.RadioItem
-                    key={item.option}
-                    value={item.name}
+                    value={option}
                     className="dropdown__item"
                   >
-                    {item.name}
+                    {option}
                     <DropdownMenu.ItemIndicator>
                       <FaCheck className="dropdown__indicator" />
                     </DropdownMenu.ItemIndicator>

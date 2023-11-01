@@ -3,7 +3,7 @@ import "./tag.css";
 
 interface Props {
   isPressed: boolean;
-  text: string;
+  text: "UI" | "UX" | "Enhancement" | "Bug" | "Feature";
 }
 
 export function Tag(props: Props) {

@@ -1,0 +1,15 @@
+.feedback-container {
+  margin: 1rem auto;
+  max-width: 64rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.feedback-list {
+  --gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--gap);
+  width: calc(100% - 255px - var(--gap));
+}

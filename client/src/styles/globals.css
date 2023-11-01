@@ -6,8 +6,8 @@
 
 body {
   font-family: var(--ff-primary);
-  background-color: var(--clr-light-300);
-  color: var(--clr-dark-400);
+  background-color: hsl(var(--clr-light-500));
+  color: hsl(var(--clr-dark-400));
   font-weight: var(--font-weight-light);
 }
 

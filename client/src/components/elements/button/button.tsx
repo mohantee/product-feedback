@@ -5,11 +5,11 @@ interface Props {
   type: "primary" | "secondary" | "accent" | "alert" | "blank";
   name: string;
   icon?: ReactElement;
-  transition: "underline" | "opacity";
+  transition?: "underline" | "opacity";
 }
 
 export function Button(props: Props) {
-  const { icon, type, name, transition } = props;
+  const { icon, type, name, transition = "opacity" } = props;
   return (
     <button
       className="btn text-white-400 fs-heading-100 flex"

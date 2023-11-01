@@ -13,7 +13,8 @@
   --clr-dark-400-15pc: var(--clr-dark-400) / 0.15;
   --clr-dark-500: 230 31% 31%;
   --clr-alert: 0 67% 53%;
-  --box-shadow: 0px 10px 40px -7px rgba(55, 63, 104, 0.35);
+  --box-shadow-1: 0px 10px 40px -7px rgba(55, 63, 104, 0.35);
+  --box-shadow-2: 0px 10px 40px -20px rgba(55, 63, 104, 0.35);
 
   /* TYPOGRAPHY */
   --fs-heading-100: 0.875rem;

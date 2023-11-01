@@ -1,26 +1,13 @@
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  RedirectToSignIn,
-} from "@clerk/clerk-react";
-import { dark } from "@clerk/themes";
-
-const CLERK_PUB_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string;
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FeedbackRoutes } from "./features/feedback/routes";
 
 function App() {
   return (
-    <ClerkProvider
-      appearance={{ baseTheme: dark }}
-      publishableKey={CLERK_PUB_KEY}
-    >
-      <SignedIn>
-        <p>Hi there</p>
-      </SignedIn>
-      <SignedOut>
-        <RedirectToSignIn />
-      </SignedOut>
-    </ClerkProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<FeedbackRoutes />} path="/feedbacks/*" />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

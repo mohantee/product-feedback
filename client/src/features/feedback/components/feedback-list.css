@@ -1,0 +1,53 @@
+.feedback-meta {
+  background-color: hsl(var(--clr-light-300));
+  padding: 1.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover,
+  &:focus-within {
+    box-shadow: var(--box-shadow-2);
+  }
+}
+
+.feedback-meta__title {
+  font-size: var(--fs-heading-200);
+  text-decoration: none;
+  color: inherit;
+  font-weight: 700;
+}
+
+.feedback-meta__tags {
+  margin-top: 0.5rem;
+}
+
+.feedback-meta__content {
+  color: hsl(var(--clr-dark-300));
+}
+
+.feedback-meta__upvote-btn {
+  order: 1;
+  align-self: start;
+}
+
+.feedback-meta__container {
+  order: 2;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.feedback-meta__comments {
+  order: 3;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  gap: 0.5rem;
+  font-size: var(--fs-body-400);
+}

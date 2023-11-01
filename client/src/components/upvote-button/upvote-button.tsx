@@ -1,15 +1,14 @@
-import { ReactElement } from "react";
 import * as Toggle from "@radix-ui/react-toggle";
 import "./upvote-button.css";
+import { FaChevronUp } from "react-icons/fa";
 
 interface Props {
   count: number;
-  icon?: ReactElement;
   isPressed: boolean;
 }
 
 export function UpvoteButton(props: Props) {
-  const { count, icon, isPressed } = props;
+  const { count, isPressed } = props;
 
   return (
     <Toggle.Root
@@ -17,7 +16,9 @@ export function UpvoteButton(props: Props) {
       aria-label={`${count} upvotes`}
       pressed={isPressed}
     >
-      <span className="chip__icon">{icon}</span>
+      <span className="chip__icon">
+        <FaChevronUp />
+      </span>
       <p className="chip__text ">{count}</p>
     </Toggle.Root>
   );

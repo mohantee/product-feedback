@@ -17,6 +17,12 @@
   }
 }
 
+.dropdown__input-field[data-filter="true"] {
+  background-color: hsl(var(--clr-dark-500));
+  color: white;
+  padding: 0;
+}
+
 .dropdown__icon {
   color: hsl(var(--clr-secondary));
   font-size: 0.8rem;
@@ -26,7 +32,7 @@
 
 .dropdown__content {
   background-color: hsl(var(--clr-light-300));
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow-1);
   min-width: 12rem;
   border-radius: 10px;
   cursor: pointer;
