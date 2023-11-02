@@ -50,6 +50,51 @@ const FEEDBACKS: FeedbackMetaProps[] = [
     comment_count: 25,
     category: "Enhancement",
   },
+  {
+    title: "Add a dark theme option",
+    content:
+      "It would help people with light sensitivities and who prefer dark mode",
+    is_upvoted: false,
+    upvote_count: 15,
+    comment_count: 25,
+    category: "Enhancement",
+  },
+  {
+    title: "Add a dark theme option",
+    content:
+      "It would help people with light sensitivities and who prefer dark mode",
+    is_upvoted: false,
+    upvote_count: 15,
+    comment_count: 25,
+    category: "Enhancement",
+  },
+  {
+    title: "Add a dark theme option",
+    content:
+      "It would help people with light sensitivities and who prefer dark mode",
+    is_upvoted: false,
+    upvote_count: 15,
+    comment_count: 25,
+    category: "Enhancement",
+  },
+  {
+    title: "Add a dark theme option",
+    content:
+      "It would help people with light sensitivities and who prefer dark mode",
+    is_upvoted: false,
+    upvote_count: 15,
+    comment_count: 25,
+    category: "Enhancement",
+  },
+  {
+    title: "Add a dark theme option",
+    content:
+      "It would help people with light sensitivities and who prefer dark mode",
+    is_upvoted: false,
+    upvote_count: 15,
+    comment_count: 25,
+    category: "Enhancement",
+  },
 ];
 
 interface FeedbackMetaProps {
@@ -58,7 +103,7 @@ interface FeedbackMetaProps {
   is_upvoted: boolean;
   upvote_count: number;
   comment_count: number;
-  category: "UI" | "UX" | "Enhancement" | "Bug" | "Feature";
+  category: "All" | "UI" | "UX" | "Enhancement" | "Bug" | "Feature";
 }
 
 function FeedbackMeta(props: FeedbackMetaProps) {

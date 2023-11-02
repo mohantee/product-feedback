@@ -6,7 +6,7 @@ import { Dispatch, ReactElement, SetStateAction } from "react";
 interface Props {
   ariaLabel: string;
   value: string;
-  onValueChange: Dispatch<SetStateAction<any>>;
+  onValueChange?: Dispatch<SetStateAction<any>>;
   trigger?: ReactElement;
   values: string[];
 }
@@ -21,7 +21,6 @@ export function Dropdown(props: Props) {
         role="combobox"
         type="text"
         value={value}
-        onChange={() => {}}
         aria-label={ariaLabel}
         readOnly
       />

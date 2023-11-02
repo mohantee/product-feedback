@@ -1,5 +1,5 @@
 import { Aside } from "../components/aside";
-import { FeedbackFilter } from "../components/feedback-filter";
+import { FeedbackControls } from "../components/feedback-controls";
 import { FeedbackList } from "../components/feedback-list";
 import "./feedbacks.css";
 
@@ -8,7 +8,7 @@ export function Feedbacks() {
     <div className="feedback-container">
       <Aside />
       <div className="feedback-list">
-        <FeedbackFilter />
+        <FeedbackControls />
         <FeedbackList />
       </div>
     </div>

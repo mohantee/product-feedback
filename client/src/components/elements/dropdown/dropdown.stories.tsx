@@ -15,34 +15,10 @@ export const Default: Story = {
   args: {
     defaultValue: "Feature",
     ariaLabel: "Select Category",
-    value: {
-      option: "feature",
-      name: "Feature",
-    },
+    value: "Bug",
     onValueChange: (value) => {
       console.log(value);
     },
-    values: [
-      {
-        option: "feature",
-        name: "Feature",
-      },
-      {
-        option: "ui",
-        name: "UI",
-      },
-      {
-        option: "ux",
-        name: "UX",
-      },
-      {
-        option: "enhancement",
-        name: "Enhancement",
-      },
-      {
-        option: "bug",
-        name: "Bug",
-      },
-    ],
+    values: ["All", "UI", "UX", "Feature", "Enhancement", "Bug"],
   },
 };

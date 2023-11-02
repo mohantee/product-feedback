@@ -3,14 +3,15 @@ import "./tag.css";
 
 interface Props {
   isPressed: boolean;
-  text: "UI" | "UX" | "Enhancement" | "Bug" | "Feature";
+  text: "All" | "UI" | "UX" | "Enhancement" | "Bug" | "Feature";
+  onClick?: (e: any) => void;
 }
 
 export function Tag(props: Props) {
-  const { isPressed, text } = props;
+  const { isPressed, text, onClick } = props;
 
   return (
-    <Toggle.Root pressed={isPressed} className="tag">
+    <Toggle.Root pressed={isPressed} className="tag" onClick={onClick}>
       <p className="tag__text">{text}</p>
     </Toggle.Root>
   );
