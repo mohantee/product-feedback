@@ -1,8 +1,8 @@
-import { Button } from "../../../components/elements/button";
-import { Dropdown } from "../../../components/elements/dropdown";
 import "./feedback-controls.css";
 import { FaPlus } from "react-icons/fa6";
-import { useFeedbackStore } from "../store";
+import { Dropdown } from "@components/elements/dropdown";
+import { Button } from "@components/elements/button";
+import { useFeedbackStore } from "@features/feedback/store";
 
 const OPTIONS = [
   {

@@ -1,5 +1,5 @@
+import { FeedbackRoutes } from "@features/feedback/routes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { FeedbackRoutes } from "./features/feedback/routes";
 
 function App() {
   return (

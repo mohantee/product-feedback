@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
+import { Feedback } from "./feedback/feedback";
+import { CreateFeedback } from "./create-feedback/create-feedback";
+import { EditFeedback } from "./edit-feedback/edit-feedback";
 import { Feedbacks } from "./feedbacks";
-import { Feedback } from "./feedback";
-import { CreateFeedback } from "./create-feedback";
-import { EditFeedback } from "./edit-feedback";
 
 export function FeedbackRoutes() {
   return (

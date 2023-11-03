@@ -1,8 +1,8 @@
-import { UpvoteButton } from "../../../components/upvote-button";
-import { Tag } from "../../../components/elements/tag/tag";
 import { FaComment } from "react-icons/fa";
 import "./feedback-list.css";
 import { Link } from "react-router-dom";
+import { UpvoteButton } from "../../../../components/upvote-button";
+import { Tag } from "../../../../components/elements/tag/tag";
 
 const FEEDBACKS: FeedbackMetaProps[] = [
   {
@@ -106,7 +106,7 @@ interface FeedbackMetaProps {
   category: "All" | "UI" | "UX" | "Enhancement" | "Bug" | "Feature";
 }
 
-function FeedbackMeta(props: FeedbackMetaProps) {
+export function FeedbackMeta(props: FeedbackMetaProps) {
   const { title, content, is_upvoted, upvote_count, comment_count, category } =
     props;
   return (

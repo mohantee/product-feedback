@@ -13,7 +13,6 @@ type Story = StoryObj<typeof Dropdown>;
 
 export const Default: Story = {
   args: {
-    defaultValue: "Feature",
     ariaLabel: "Select Category",
     value: "Bug",
     onValueChange: (value) => {

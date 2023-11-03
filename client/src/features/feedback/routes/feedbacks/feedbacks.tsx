@@ -1,6 +1,6 @@
-import { Aside } from "../components/aside";
-import { FeedbackControls } from "../components/feedback-controls";
-import { FeedbackList } from "../components/feedback-list";
+import { Aside } from "@features/feedback/components/aside";
+import { FeedbackControls } from "@features/feedback/components/feedback-controls";
+import { FeedbackList } from "@features/feedback/components/feedback-list";
 import "./feedbacks.css";
 
 export function Feedbacks() {

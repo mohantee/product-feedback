@@ -1,8 +1,8 @@
-import { Hero } from "../../../components/hero/hero";
-import { Tag } from "../../../components/elements/tag/tag";
 import "./aside.css";
 import { Link } from "react-router-dom";
-import { useFeedbackStore } from "../store";
+import { useFeedbackStore } from "@features/feedback/store";
+import { Tag } from "@components/elements/tag";
+import { Hero } from "@components/hero";
 
 const options = [
   {
