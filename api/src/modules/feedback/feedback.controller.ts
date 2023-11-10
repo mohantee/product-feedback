@@ -52,12 +52,26 @@ export async function getAllFeedbackByQueryHandler(
   res: Response,
 ) {
   let query = req.query;
+  const { userId } = req.auth;
 
   try {
     if (!query.sort && !query.filter) {
       const feedbacks = await getAllFeedback();
+      console.log(feedbacks);
       const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
-      return res.status(200).send(feedbacksWithCommentCount);
+      const feedbackToReturn = await Promise.all(
+        feedbacksWithCommentCount.map(async (feedback) => {
+          let isUpvoted;
+          if (userId) {
+            isUpvoted = await getUpvotedFeedback(feedback.id, userId);
+          } else {
+            isUpvoted = false;
+          }
+          return { ...feedback, isUpvoted: !!isUpvoted };
+        }),
+      );
+
+      return res.status(200).send(feedbackToReturn);
     }
 
     if (!query.sort && query.filter) {
@@ -68,6 +82,7 @@ export async function getAllFeedbackByQueryHandler(
 
     if (query.sort === "upvotes") {
       const feedbacks = await getAllFeedbackByQuery(query);
+
       return res.status(200).send(feedbacks);
     } else if (query.sort === "comments") {
       const order = query.order as "asc" | "desc";

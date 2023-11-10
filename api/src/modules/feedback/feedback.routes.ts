@@ -16,7 +16,10 @@ import {
   upvoteFeedbackHandler,
   deupvoteFeedbackHandler,
 } from "./feedback.controller";
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+import {
+  ClerkExpressRequireAuth,
+  ClerkExpressWithAuth,
+} from "@clerk/clerk-sdk-node";
 
 export const feedbackRouter = Router();
 
@@ -34,7 +37,11 @@ feedbackRouter
     ClerkExpressRequireAuth(),
     createFeedbackHandler,
   )
-  .get(validate(feedbackByQuerySchema), getAllFeedbackByQueryHandler);
+  .get(
+    validate(feedbackByQuerySchema),
+    ClerkExpressWithAuth(),
+    getAllFeedbackByQueryHandler,
+  );
 
 feedbackRouter
   .route("/:id")
