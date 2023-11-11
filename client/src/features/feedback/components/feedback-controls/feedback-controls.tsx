@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa6";
 import { Dropdown } from "@components/elements/dropdown";
 import { Button } from "@components/elements/button";
 import { useFeedbackStore } from "@features/feedback/store";
+import { useNavigate } from "react-router-dom";
 
 const OPTIONS = [
   {
@@ -30,6 +31,7 @@ const OPTIONS = [
 export function FeedbackControls() {
   const sortOrder = useFeedbackStore((state) => state.sortOrder);
   const setSortOrder = useFeedbackStore((state) => state.setSortOrder);
+  const navigate = useNavigate();
 
   const trigger = (
     <div className="dropdown__trigger">
@@ -78,7 +80,12 @@ export function FeedbackControls() {
           trigger={trigger}
         />
       </div>
-      <Button type="primary" name="Add Feedback" icon={<FaPlus />} />
+      <Button
+        type="primary"
+        name="Add Feedback"
+        icon={<FaPlus />}
+        onClick={() => navigate("/feedbacks/create")}
+      />
     </div>
   );
 }

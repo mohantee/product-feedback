@@ -1,139 +1,54 @@
 import { FaComment } from "react-icons/fa";
 import "./feedback-list.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UpvoteButton } from "../../../../components/upvote-button";
 import { Tag } from "../../../../components/elements/tag/tag";
+import { useFeedbacks } from "@features/feedback/api/get-feedbacks";
+import { Feedback } from "@features/feedback/types";
 
-const FEEDBACKS: FeedbackMetaProps[] = [
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-  {
-    title: "Add a dark theme option",
-    content:
-      "It would help people with light sensitivities and who prefer dark mode",
-    is_upvoted: false,
-    upvote_count: 15,
-    comment_count: 25,
-    category: "Enhancement",
-  },
-];
+const categoryMap = {
+  all: "All",
+  ui: "UI",
+  ux: "UX",
+  enhancement: "Enhancement",
+  bug: "Bug",
+  feature: "Feature",
+} as const;
 
-interface FeedbackMetaProps {
-  title: string;
-  content: string;
-  is_upvoted: boolean;
-  upvote_count: number;
-  comment_count: number;
-  category: "All" | "UI" | "UX" | "Enhancement" | "Bug" | "Feature";
-}
-
-export function FeedbackMeta(props: FeedbackMetaProps) {
-  const { title, content, is_upvoted, upvote_count, comment_count, category } =
-    props;
+export function FeedbackMeta(props: Feedback) {
+  const { id, title, content, category, _count, isUpvoted } = props;
+  const navigate = useNavigate();
   return (
-    <li className="feedback-meta">
+    <li className="feedback-meta" onClick={() => navigate(`/feedbacks/${id}`)}>
       <div className="feedback-meta__container">
         <Link className="feedback-meta__title" to=".">
           <h3>{title}</h3>
         </Link>
         <p className="feedback-meta__content">{content}</p>
         <div className="feedback-meta__tags"></div>
-        <Tag isPressed={false} text={category} />
+        <Tag isPressed={isUpvoted} text={categoryMap[category]} />
       </div>
       <div className="feedback-meta__upvote-btn">
-        <UpvoteButton count={upvote_count} isPressed={is_upvoted} />
+        <UpvoteButton count={_count.upvotes} isPressed={false} />
       </div>
       <div className="feedback-meta__comments">
         <FaComment style={{ color: "#CDD2EE" }} aria-hidden="true" />
-        <p aria-label={`${comment_count} comments`}>{comment_count}</p>
+        <p aria-label={`${_count.comments} comments`}>{_count.comments}</p>
       </div>
     </li>
   );
 }
 
 export function FeedbackList() {
+  const { data: feedbacks } = useFeedbacks();
+
+  if (!feedbacks) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <ul className="flow">
-      {FEEDBACKS.map((feedback, i) => (
+      {feedbacks.map((feedback, i) => (
         <FeedbackMeta key={i} {...feedback} />
       ))}
     </ul>

@@ -116,7 +116,6 @@ export function getAllFeedback() {
         },
       },
     },
-    take: 10,
   });
 }
 

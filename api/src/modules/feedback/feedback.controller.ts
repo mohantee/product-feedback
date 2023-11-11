@@ -4,7 +4,6 @@ import {
   deleteFeedback,
   getAllFeedback,
   getFeedbackById,
-  getAllFeedbackByQuery,
   getUpvotedFeedback,
   getRoadmap,
   updateFeedback,
@@ -14,7 +13,6 @@ import {
 import {
   getCommentCount,
   getFeedbacksWithCommentCount,
-  sortByCommentCount,
 } from "./feedback.utils";
 
 export async function createFeedbackHandler(req: Request, res: Response) {
@@ -47,66 +45,24 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
   }
 }
 
-export async function getAllFeedbackByQueryHandler(
-  req: Request,
-  res: Response,
-) {
-  let query = req.query;
+export async function getAllFeedbackHandler(req: Request, res: Response) {
   const { userId } = req.auth;
-
-  try {
-    if (!query.sort && !query.filter) {
-      const feedbacks = await getAllFeedback();
-      console.log(feedbacks);
-      const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
-      const feedbackToReturn = await Promise.all(
-        feedbacksWithCommentCount.map(async (feedback) => {
-          let isUpvoted;
-          if (userId) {
-            isUpvoted = await getUpvotedFeedback(feedback.id, userId);
-          } else {
-            isUpvoted = false;
-          }
-          return { ...feedback, isUpvoted: !!isUpvoted };
-        }),
-      );
-
-      return res.status(200).send(feedbackToReturn);
-    }
-
-    if (!query.sort && query.filter) {
-      const feedbacks = await getAllFeedbackByQuery(query);
-      const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
-      return res.status(200).send(feedbacksWithCommentCount);
-    }
-
-    if (query.sort === "upvotes") {
-      const feedbacks = await getAllFeedbackByQuery(query);
-
-      return res.status(200).send(feedbacks);
-    } else if (query.sort === "comments") {
-      const order = query.order as "asc" | "desc";
-      query.sort = undefined;
-      query.order = undefined;
-      const feedbacks = await getAllFeedbackByQuery(query);
-
-      const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
-
-      const sortedFeedbacks = sortByCommentCount(
-        feedbacksWithCommentCount,
-        order,
-      );
-
-      return res.status(200).send(sortedFeedbacks);
-    }
-  } catch (error) {
-    return res.status(500).send(error);
-  }
-}
-
-export async function getAllFeedbackHandler(_: Request, res: Response) {
   const feedbacks = await getAllFeedback();
-  return res.status(200).send(feedbacks);
+  const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
+
+  const feedbacksWithUpvoteStatus = await Promise.all(
+    feedbacksWithCommentCount.map(async (feedback) => {
+      let isUpvoted;
+      if (userId) {
+        isUpvoted = await getUpvotedFeedback(feedback.id, userId);
+      } else {
+        isUpvoted = false;
+      }
+      return { ...feedback, isUpvoted: !!isUpvoted };
+    }),
+  );
+
+  return res.status(200).send(feedbacksWithUpvoteStatus);
 }
 
 export async function updateFeedbackHandler(req: Request, res: Response) {

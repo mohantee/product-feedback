@@ -19,6 +19,7 @@ export default defineConfig({
       "@features": path.resolve(__dirname, "src/features"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@styles": path.resolve(__dirname, "src/styles"),
+      "@lib": path.resolve(__dirname, "src/lib"),
     },
   },
 });

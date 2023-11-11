@@ -9,12 +9,12 @@ import {
 import {
   createFeedbackHandler,
   deleteFeedbackHander,
-  getAllFeedbackByQueryHandler,
   getFeedbackByIdHandler,
   updateFeedbackHandler,
   getRoadmapHandler,
   upvoteFeedbackHandler,
   deupvoteFeedbackHandler,
+  getAllFeedbackHandler,
 } from "./feedback.controller";
 import {
   ClerkExpressRequireAuth,
@@ -40,7 +40,7 @@ feedbackRouter
   .get(
     validate(feedbackByQuerySchema),
     ClerkExpressWithAuth(),
-    getAllFeedbackByQueryHandler,
+    getAllFeedbackHandler,
   );
 
 feedbackRouter

@@ -1,48 +1,38 @@
 import "./aside.css";
-import { Link } from "react-router-dom";
+import { Link, SetURLSearchParams } from "react-router-dom";
 import { useFeedbackStore } from "@features/feedback/store";
 import { Tag } from "@components/elements/tag";
 import { Hero } from "@components/hero";
 
-const options = [
-  {
-    name: "All",
-    option: "all",
-  },
-  {
-    name: "UI",
-    option: "ui",
-  },
-  {
-    name: "UX",
-    option: "ux",
-  },
-  {
-    name: "Enhancement",
-    option: "enhancement",
-  },
-  {
-    name: "Bug",
-    option: "bug",
-  },
-  {
-    name: "Feature",
-    option: "feature",
-  },
-] as const;
+interface Props {
+  searchParams: {
+    sort: string | null;
+    filter: string | null;
+    order: string | null;
+    setSearchParams: SetURLSearchParams;
+  };
+}
 
-function CategoryFilters() {
-  const filter = useFeedbackStore((state) => state.filter);
-  const setFilter = useFeedbackStore((state) => state.setFilter);
+const options = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"] as const;
+
+function CategoryFilters({ searchParams }: Props) {
+  // const filter = useFeedbackStore((state) => state.filter);
+  // const setFilter = useFeedbackStore((state) => state.setFilter);
+  const { filter, setSearchParams } = searchParams;
+  console.log(filter);
   return (
     <ul className="aside-tags" aria-label="Apply category filters">
-      {options.map((item) => (
-        <li key={item.option}>
+      {options.map((name) => (
+        <li key={name}>
           <Tag
-            text={item.name}
-            isPressed={filter === item.option}
+            text={name}
+            isPressed={filter === name}
             onClick={(e) => {
-              setFilter(e.target.textContent.toLowerCase());
+              // setFilter(e.target.textContent.toLowerCase());
+              setSearchParams((params) => {
+                params.set("filter", e.target.textContent);
+                return params;
+              });
             }}
           />
         </li>
@@ -56,7 +46,7 @@ function Roadmap() {
     <div className="feedback-roadmap">
       <div className="feedback-roadmap__head">
         <h3>Roadmap</h3>
-        <Link to=".">View</Link>
+        <Link to="/feedbacks/roadmap">View</Link>
       </div>
       <dl className="feedback-roadmap__meta">
         <dt>Planned</dt>
@@ -70,11 +60,11 @@ function Roadmap() {
   );
 }
 
-export function Aside() {
+export function Aside({ searchParams }: Props) {
   return (
     <div className="feedback-aside">
       <Hero />
-      <CategoryFilters />
+      <CategoryFilters searchParams={searchParams} />
       <Roadmap />
     </div>
   );
