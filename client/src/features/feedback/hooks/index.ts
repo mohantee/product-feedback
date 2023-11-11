@@ -1,31 +1,55 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { z } from "zod";
+
+const sortSchema = z.union([
+  z.literal("Most Upvotes"),
+  z.literal("Least Upvotes"),
+  z.literal("Most Comments"),
+  z.literal("Least Comments"),
+]);
+
+const filterSchema = z.union([
+  z.literal("All"),
+  z.literal("UI"),
+  z.literal("UX"),
+  z.literal("Enhancement"),
+  z.literal("Bug"),
+  z.literal("Feature"),
+]);
 
 export function useFilterParams() {
-  const [filterParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    if (!filterParams.has("sort"))
-      setSearchParams((params) => {
-        params.set("sort", "upvotes");
-        return params;
-      });
-    if (!filterParams.has("order"))
-      setSearchParams((params) => {
-        params.set("order", "desc");
-        return params;
-      });
-    if (!filterParams.has("filter"))
-      setSearchParams((params) => {
+  if (
+    !searchParams.has("filter") ||
+    !filterSchema.safeParse(searchParams.get("filter")).success
+  )
+    setSearchParams(
+      (params) => {
         params.set("filter", "All");
         return params;
-      });
+      },
+      { replace: true }
+    );
+
+  useEffect(() => {
+    if (
+      !searchParams.has("sort") ||
+      !sortSchema.safeParse(searchParams.get("sort")).success
+    )
+      setSearchParams(
+        (params) => {
+          params.set("sort", "Most Upvotes");
+          return params;
+        },
+        { replace: true }
+      );
   }, []);
 
   return {
-    sort: filterParams.get("sort"),
-    filter: filterParams.get("filter"),
-    order: filterParams.get("order"),
+    sort: searchParams.get("sort") ?? "Most Upvotes",
+    filter: searchParams.get("filter") ?? "All",
     setSearchParams,
   };
 }

@@ -2,35 +2,24 @@ import "./feedback-controls.css";
 import { FaPlus } from "react-icons/fa6";
 import { Dropdown } from "@components/elements/dropdown";
 import { Button } from "@components/elements/button";
-import { useFeedbackStore } from "@features/feedback/store";
-import { useNavigate } from "react-router-dom";
+import { SetURLSearchParams, useNavigate } from "react-router-dom";
 
 const OPTIONS = [
-  {
-    name: "Most Upvotes",
-    order: "desc",
-    sort: "upvotes",
-  },
-  {
-    name: "Least Upvotes",
-    order: "asc",
-    sort: "upvotes",
-  },
-  {
-    name: "Most Comments",
-    order: "desc",
-    sort: "comments",
-  },
-  {
-    name: "Least Comments",
-    order: "asc",
-    sort: "comments",
-  },
+  "Most Upvotes",
+  "Least Upvotes",
+  "Most Comments",
+  "Least Comments",
 ];
 
-export function FeedbackControls() {
-  const sortOrder = useFeedbackStore((state) => state.sortOrder);
-  const setSortOrder = useFeedbackStore((state) => state.setSortOrder);
+interface Props {
+  searchParams: {
+    sort: string;
+    filter: string;
+    setSearchParams: SetURLSearchParams;
+  };
+}
+
+export function FeedbackControls({ searchParams }: Props) {
   const navigate = useNavigate();
 
   const trigger = (
@@ -39,7 +28,7 @@ export function FeedbackControls() {
         className="dropdown__input-field"
         role="combobox"
         type="text"
-        value={sortOrder}
+        value={searchParams.sort}
         aria-label="Sort by options"
         readOnly
       />
@@ -73,9 +62,17 @@ export function FeedbackControls() {
         <span aria-hidden="true">Sort by: </span>
 
         <Dropdown
-          values={OPTIONS.map((option) => option.name)}
-          value={sortOrder}
-          onValueChange={setSortOrder}
+          values={OPTIONS}
+          value={searchParams.sort}
+          onValueChange={(value: string) =>
+            searchParams.setSearchParams(
+              (params) => {
+                params.set("sort", value);
+                return params;
+              },
+              { replace: true }
+            )
+          }
           ariaLabel="Filter feedbacks"
           trigger={trigger}
         />

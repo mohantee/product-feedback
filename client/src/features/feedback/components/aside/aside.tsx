@@ -1,14 +1,12 @@
 import "./aside.css";
 import { Link, SetURLSearchParams } from "react-router-dom";
-import { useFeedbackStore } from "@features/feedback/store";
 import { Tag } from "@components/elements/tag";
 import { Hero } from "@components/hero";
 
 interface Props {
   searchParams: {
-    sort: string | null;
-    filter: string | null;
-    order: string | null;
+    sort: string;
+    filter: string;
     setSearchParams: SetURLSearchParams;
   };
 }
@@ -16,10 +14,7 @@ interface Props {
 const options = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"] as const;
 
 function CategoryFilters({ searchParams }: Props) {
-  // const filter = useFeedbackStore((state) => state.filter);
-  // const setFilter = useFeedbackStore((state) => state.setFilter);
   const { filter, setSearchParams } = searchParams;
-  console.log(filter);
   return (
     <ul className="aside-tags" aria-label="Apply category filters">
       {options.map((name) => (
@@ -28,11 +23,13 @@ function CategoryFilters({ searchParams }: Props) {
             text={name}
             isPressed={filter === name}
             onClick={(e) => {
-              // setFilter(e.target.textContent.toLowerCase());
-              setSearchParams((params) => {
-                params.set("filter", e.target.textContent);
-                return params;
-              });
+              setSearchParams(
+                (params) => {
+                  params.set("filter", e.target.textContent);
+                  return params;
+                },
+                { replace: true }
+              );
             }}
           />
         </li>

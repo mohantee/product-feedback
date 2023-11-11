@@ -11,8 +11,8 @@ export function Feedbacks() {
     <div className="feedback-container">
       <Aside searchParams={searchParams} />
       <div className="feedback-list">
-        <FeedbackControls />
-        <FeedbackList />
+        <FeedbackControls searchParams={searchParams} />
+        <FeedbackList searchParams={searchParams} />
       </div>
     </div>
   );

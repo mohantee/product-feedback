@@ -1,6 +1,6 @@
 import { FaComment } from "react-icons/fa";
 import "./feedback-list.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, SetURLSearchParams, useNavigate } from "react-router-dom";
 import { UpvoteButton } from "../../../../components/upvote-button";
 import { Tag } from "../../../../components/elements/tag/tag";
 import { useFeedbacks } from "@features/feedback/api/get-feedbacks";
@@ -39,8 +39,17 @@ export function FeedbackMeta(props: Feedback) {
   );
 }
 
-export function FeedbackList() {
+interface Props {
+  searchParams: {
+    sort: string;
+    filter: string;
+    setSearchParams: SetURLSearchParams;
+  };
+}
+
+export function FeedbackList(props: Props) {
   const { data: feedbacks } = useFeedbacks();
+  props;
 
   if (!feedbacks) {
     return <h1>Loading...</h1>;
