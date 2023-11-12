@@ -21,19 +21,18 @@ const filterSchema = z.union([
 export function useFilterParams() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  if (
-    !searchParams.has("filter") ||
-    !filterSchema.safeParse(searchParams.get("filter")).success
-  )
-    setSearchParams(
-      (params) => {
-        params.set("filter", "All");
-        return params;
-      },
-      { replace: true }
-    );
-
   useEffect(() => {
+    if (
+      !searchParams.has("filter") ||
+      !filterSchema.safeParse(searchParams.get("filter")).success
+    )
+      setSearchParams(
+        (params) => {
+          params.set("filter", "All");
+          return params;
+        },
+        { replace: true }
+      );
     if (
       !searchParams.has("sort") ||
       !sortSchema.safeParse(searchParams.get("sort")).success

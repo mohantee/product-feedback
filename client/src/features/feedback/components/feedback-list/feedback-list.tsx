@@ -5,6 +5,7 @@ import { UpvoteButton } from "../../../../components/upvote-button";
 import { Tag } from "../../../../components/elements/tag/tag";
 import { useFeedbacks } from "@features/feedback/api/get-feedbacks";
 import { Feedback } from "@features/feedback/types";
+import { applySearchParams } from "@features/feedback/helpers";
 
 const categoryMap = {
   all: "All",
@@ -47,9 +48,16 @@ interface Props {
   };
 }
 
-export function FeedbackList(props: Props) {
+export function FeedbackList({ searchParams }: Props) {
   const { data: feedbacks } = useFeedbacks();
-  props;
+  let processedFeedbacks;
+
+  if (feedbacks)
+    processedFeedbacks = applySearchParams(
+      feedbacks,
+      searchParams.sort,
+      searchParams.filter
+    );
 
   if (!feedbacks) {
     return <h1>Loading...</h1>;
@@ -57,7 +65,7 @@ export function FeedbackList(props: Props) {
 
   return (
     <ul className="flow">
-      {feedbacks.map((feedback, i) => (
+      {processedFeedbacks?.map((feedback, i) => (
         <FeedbackMeta key={i} {...feedback} />
       ))}
     </ul>
