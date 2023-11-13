@@ -1,3 +1,5 @@
+import { SetURLSearchParams } from "react-router-dom";
+
 interface Comment {
   id: string;
   content: string;
@@ -22,5 +24,13 @@ export interface Feedback {
   _count: {
     upvotes: number;
     comments: number;
+  };
+}
+
+export interface SearchParamProps {
+  searchParams: {
+    sort: string;
+    filter: string;
+    setSearchParams: SetURLSearchParams;
   };
 }

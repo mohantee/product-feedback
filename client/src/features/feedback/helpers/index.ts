@@ -1,6 +1,6 @@
 import { Feedback } from "../types";
 
-export function applySearchParams(
+export function processFeedbacks(
   feedbacks: Feedback[],
   sort: string,
   filter: string

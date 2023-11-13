@@ -2,8 +2,11 @@ import "./feedback-controls.css";
 import { FaPlus } from "react-icons/fa6";
 import { Dropdown } from "@components/elements/dropdown";
 import { Button } from "@components/elements/button";
-import { SetURLSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SuggestionIcon } from "../suggestion-icon";
+import { useFeedbacks } from "@features/feedback/api/get-feedbacks";
+import { processFeedbacks } from "@features/feedback/helpers";
+import { SearchParamProps } from "@features/feedback/types";
 
 const OPTIONS = [
   "Most Upvotes",
@@ -12,16 +15,20 @@ const OPTIONS = [
   "Least Comments",
 ];
 
-interface Props {
-  searchParams: {
-    sort: string;
-    filter: string;
-    setSearchParams: SetURLSearchParams;
-  };
-}
-
-export function FeedbackControls({ searchParams }: Props) {
+export function FeedbackControls({ searchParams }: SearchParamProps) {
   const navigate = useNavigate();
+  const { data: feedbacks } = useFeedbacks();
+  let numberOfFeedbacks;
+
+  if (feedbacks) {
+    const processedFeedbacks = processFeedbacks(
+      feedbacks,
+      searchParams.sort,
+      searchParams.filter
+    );
+
+    numberOfFeedbacks = processedFeedbacks.length;
+  }
 
   const trigger = (
     <div className="dropdown__trigger">
@@ -39,7 +46,9 @@ export function FeedbackControls({ searchParams }: Props) {
   return (
     <div className="feedback-controls">
       <SuggestionIcon />
-      <h2 className="feedback-controls__count">6 Suggestions</h2>
+      <h2 className="feedback-controls__count">
+        {numberOfFeedbacks} Suggestions
+      </h2>
       <div className="feedback-controls__dropdown">
         <span aria-hidden="true">Sort by: </span>
 

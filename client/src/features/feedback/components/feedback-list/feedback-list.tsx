@@ -1,11 +1,12 @@
 import { FaComment } from "react-icons/fa";
 import "./feedback-list.css";
-import { Link, SetURLSearchParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UpvoteButton } from "../../../../components/upvote-button";
 import { Tag } from "../../../../components/elements/tag/tag";
 import { useFeedbacks } from "@features/feedback/api/get-feedbacks";
-import { Feedback } from "@features/feedback/types";
-import { applySearchParams } from "@features/feedback/helpers";
+import { Feedback, SearchParamProps } from "@features/feedback/types";
+import { processFeedbacks } from "@features/feedback/helpers";
+import { InfoEmptyFeedbacks } from "@features/feedback/components/info-empty-feedbacks";
 
 const categoryMap = {
   all: "All",
@@ -40,27 +41,22 @@ export function FeedbackMeta(props: Feedback) {
   );
 }
 
-interface Props {
-  searchParams: {
-    sort: string;
-    filter: string;
-    setSearchParams: SetURLSearchParams;
-  };
-}
-
-export function FeedbackList({ searchParams }: Props) {
+export function FeedbackList({ searchParams }: SearchParamProps) {
   const { data: feedbacks } = useFeedbacks();
   let processedFeedbacks;
 
-  if (feedbacks)
-    processedFeedbacks = applySearchParams(
+  if (feedbacks) {
+    processedFeedbacks = processFeedbacks(
       feedbacks,
       searchParams.sort,
       searchParams.filter
     );
-
-  if (!feedbacks) {
+  } else {
     return <h1>Loading...</h1>;
+  }
+
+  if (!processedFeedbacks.length) {
+    return <InfoEmptyFeedbacks />;
   }
 
   return (

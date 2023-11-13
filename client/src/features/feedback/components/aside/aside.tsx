@@ -1,19 +1,13 @@
 import "./aside.css";
-import { Link, SetURLSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Tag } from "@components/elements/tag";
 import { Hero } from "@components/hero";
-
-interface Props {
-  searchParams: {
-    sort: string;
-    filter: string;
-    setSearchParams: SetURLSearchParams;
-  };
-}
+import { SearchParamProps } from "@features/feedback/types";
+import { useRoadmap } from "@features/feedback/api/get-roadmap";
 
 const options = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"] as const;
 
-function CategoryFilters({ searchParams }: Props) {
+function CategoryFilters({ searchParams }: SearchParamProps) {
   const { filter, setSearchParams } = searchParams;
   return (
     <ul className="aside-tags" aria-label="Apply category filters">
@@ -39,6 +33,14 @@ function CategoryFilters({ searchParams }: Props) {
 }
 
 function Roadmap() {
+  const { data: roadmap, error } = useRoadmap();
+
+  if (error) {
+    return <h1>Error</h1>;
+  } else if (!roadmap) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <div className="feedback-roadmap">
       <div className="feedback-roadmap__head">
@@ -47,17 +49,17 @@ function Roadmap() {
       </div>
       <dl className="feedback-roadmap__meta">
         <dt>Planned</dt>
-        <dd>2</dd>
+        <dd>{roadmap.planned_count}</dd>
         <dt>In-progress</dt>
-        <dd>3</dd>
+        <dd>{roadmap.in_progress_count}</dd>
         <dt>Live</dt>
-        <dd>1</dd>
+        <dd>{roadmap.live_count}</dd>
       </dl>
     </div>
   );
 }
 
-export function Aside({ searchParams }: Props) {
+export function Aside({ searchParams }: SearchParamProps) {
   return (
     <div className="feedback-aside">
       <Hero />
