@@ -14,7 +14,7 @@ type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
   args: {
-    type: "primary",
+    status: "primary",
     name: "Post Reply",
     // icon: <IoChevronBack />,
     transition: "opacity",
@@ -23,7 +23,7 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
   args: {
-    type: "secondary",
+    status: "secondary",
     name: "Cancel",
     transition: "opacity",
   },
@@ -31,7 +31,7 @@ export const Secondary: Story = {
 
 export const Accent: Story = {
   args: {
-    type: "accent",
+    status: "accent",
     name: "Edit Feedback",
     transition: "opacity",
   },
@@ -39,7 +39,7 @@ export const Accent: Story = {
 
 export const Alert: Story = {
   args: {
-    type: "alert",
+    status: "alert",
     name: "Delete",
     transition: "opacity",
   },
@@ -47,7 +47,7 @@ export const Alert: Story = {
 
 export const GoBack: Story = {
   args: {
-    type: "blank",
+    status: "blank",
     name: "Go Back",
     transition: "underline",
     icon: <IoChevronBack />,
@@ -56,7 +56,7 @@ export const GoBack: Story = {
 
 export const GoBack2: Story = {
   args: {
-    type: "secondary",
+    status: "secondary",
     name: "Go Back",
     transition: "underline",
     icon: <IoChevronBack />,

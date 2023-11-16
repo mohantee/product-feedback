@@ -134,7 +134,7 @@ export function InfoEmptyFeedbacks() {
         <div>
           <Button
             name="Add Feedback"
-            type="primary"
+            status="primary"
             onClick={() => navigate("/feedbacks/create")}
             icon={<FaPlus />}
           />

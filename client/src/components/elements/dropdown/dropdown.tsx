@@ -2,17 +2,35 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { FaCheck, FaChevronDown } from "react-icons/fa";
 import "./dropdown.css";
 import { Dispatch, ReactElement, SetStateAction } from "react";
+import {
+  FieldValues,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
 
-interface Props {
+interface Props<T extends FieldValues> {
   ariaLabel: string;
   value: string;
   onValueChange?: Dispatch<SetStateAction<any>>;
   trigger?: ReactElement;
   values: string[];
+  register: UseFormRegister<T>;
+  rules: RegisterOptions;
+  name: Path<T>;
 }
 
-export function Dropdown(props: Props) {
-  const { values, ariaLabel, value, onValueChange, trigger } = props;
+export const Dropdown = <T extends FieldValues>(props: Props<T>) => {
+  const {
+    values,
+    ariaLabel,
+    rules,
+    name,
+    register,
+    value,
+    onValueChange,
+    trigger,
+  } = props;
 
   const defaultTrigger = (
     <div className="dropdown__trigger">
@@ -23,6 +41,7 @@ export function Dropdown(props: Props) {
         value={value}
         aria-label={ariaLabel}
         readOnly
+        {...(register && register(name, rules))}
       />
       <FaChevronDown className="dropdown__icon" />
     </div>
@@ -34,7 +53,11 @@ export function Dropdown(props: Props) {
         {trigger || defaultTrigger}
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content align="start" className="dropdown__content">
+        <DropdownMenu.Content
+          sideOffset={-8}
+          align="start"
+          className="dropdown__content"
+        >
           <DropdownMenu.RadioGroup value={value} onValueChange={onValueChange}>
             {values.map((option, i) => {
               const lastIndex = values.length - 1;
@@ -62,4 +85,4 @@ export function Dropdown(props: Props) {
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
   );
-}
+};

@@ -1,0 +1,13 @@
+.label-group {
+  .label {
+    color: hsl(var(--clr-dark-400));
+    font-size: var(--fs-heading-100);
+    font-weight: 700;
+  }
+
+  .helper-text {
+    color: hsl(var(--clr-dark-300));
+    font-size: var(--fs-heading-100);
+    margin-bottom: 1rem;
+  }
+}

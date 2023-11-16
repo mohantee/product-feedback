@@ -1,0 +1,48 @@
+.create-feedback__container {
+  max-width: 34rem;
+  margin-inline: auto;
+
+  .dropdown__input-field {
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  margin-bottom: 4rem;
+}
+
+.create-feedback {
+  background-color: hsl(var(--clr-light-300));
+  padding: 3.25rem 2.625rem 2.5rem;
+  border-radius: 10px;
+  position: relative;
+}
+
+.btn-back {
+  padding: 4rem 0 5rem;
+}
+
+.create-feedback__icon {
+  position: absolute;
+  top: -1.5rem;
+}
+
+.create-feedback__heading {
+  font-size: var(--fs-heading-400);
+  margin-bottom: 2.5rem;
+}
+
+.create-feedback__inputs {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.create-feedback__controls {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+}

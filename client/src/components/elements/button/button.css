@@ -28,8 +28,9 @@
 }
 
 .btn[data-type="blank"] {
-  background-color: hsl(var(--clr-light-300));
+  background-color: hsla(var(--clr-light-500));
   color: hsl(var(--clr-dark-300));
+  padding: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {

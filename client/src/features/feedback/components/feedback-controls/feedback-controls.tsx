@@ -69,7 +69,7 @@ export function FeedbackControls({ searchParams }: SearchParamProps) {
         />
       </div>
       <Button
-        type="primary"
+        status="primary"
         name="Add Feedback"
         icon={<FaPlus />}
         onClick={() => navigate("/feedbacks/create")}

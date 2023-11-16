@@ -2,7 +2,7 @@ import "./button.css";
 import { ReactElement } from "react";
 
 interface Props {
-  type: "primary" | "secondary" | "accent" | "alert" | "blank";
+  status: "primary" | "secondary" | "accent" | "alert" | "blank";
   name: string;
   icon?: ReactElement;
   transition?: "underline" | "opacity";
@@ -10,13 +10,14 @@ interface Props {
 }
 
 export function Button(props: Props) {
-  const { icon, type, name, transition = "opacity", onClick } = props;
+  const { icon, status, name, transition = "opacity", onClick } = props;
   return (
     <button
       className="btn text-white-400 fs-heading-100 flex"
-      data-type={type}
+      data-type={status}
       data-transition={transition}
       onClick={onClick}
+      type="submit"
     >
       {icon}
       {name}

@@ -1,0 +1,25 @@
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.input {
+  background-color: hsl(var(--clr-light-400));
+  border: none;
+  border-radius: 5px;
+  padding: 0.8rem;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  z-index: 2;
+
+  &:hover {
+    background-color: hsl(var(--clr-light-500));
+  }
+}
+
+.input__error {
+  color: hsl(var(--clr-alert));
+  font-size: var(--fs-heading-100);
+  z-index: 1;
+}
