@@ -7,6 +7,7 @@ import { useFeedbacks } from "@features/feedback/api/get-feedbacks";
 import { Feedback, SearchParamProps } from "@features/feedback/types";
 import { processFeedbacks } from "@features/feedback/helpers";
 import { InfoEmptyFeedbacks } from "@features/feedback/components/info-empty-feedbacks";
+import { useUpvoteFeedback } from "@features/feedback/api/upvote-feedback";
 
 const categoryMap = {
   all: "All",
@@ -18,6 +19,7 @@ const categoryMap = {
 } as const;
 
 export function FeedbackMeta(props: Feedback) {
+  const mutation = useUpvoteFeedback();
   const { id, title, content, category, _count, isUpvoted } = props;
   const navigate = useNavigate();
   return (
@@ -31,7 +33,14 @@ export function FeedbackMeta(props: Feedback) {
         <Tag isPressed={false} text={categoryMap[category]} />
       </div>
       <div className="feedback-meta__upvote-btn">
-        <UpvoteButton count={_count.upvotes} isPressed={isUpvoted} />
+        <UpvoteButton
+          count={_count.upvotes}
+          isPressed={isUpvoted}
+          onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            event.stopPropagation();
+            mutation.mutate({ id, isUpvoted });
+          }}
+        />
       </div>
       <div className="feedback-meta__comments">
         <FaComment style={{ color: "#CDD2EE" }} aria-hidden="true" />

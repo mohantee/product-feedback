@@ -43,7 +43,6 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
 
 export async function getAllFeedbackHandler(req: Request, res: Response) {
   const { userId } = req.auth;
-  console.log(userId);
   const feedbacks = await getAllFeedback();
 
   const feedbacksWithUpvoteStatus = await Promise.all(
@@ -105,9 +104,10 @@ export async function getRoadmapHandler(_: Request, res: Response) {
 }
 
 export async function upvoteFeedbackHandler(req: Request, res: Response) {
+  console.log("hi");
   if (!req.auth.userId)
     return res.status(400).send({ error: "Unauthenticated request" });
-  const feedbackId = parseInt(req.params.id);
+  const feedbackId = parseInt(req.body.id);
   const userId = req.auth.userId;
 
   try {
@@ -131,7 +131,7 @@ export async function upvoteFeedbackHandler(req: Request, res: Response) {
 export async function deupvoteFeedbackHandler(req: Request, res: Response) {
   if (!req.auth.userId)
     return res.status(400).send({ error: "Unauthenticated request" });
-  const feedbackId = parseInt(req.params.id);
+  const feedbackId = parseInt(req.body.id);
   const userId = req.auth.userId;
 
   try {

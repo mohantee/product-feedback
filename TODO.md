@@ -1,3 +1,6 @@
 - [x] Implement logic for whether the user has upvoted the feedback or not
 - [ ] Remove prop drilling for URL state management
 - [ ] Feedbacks feature on client needs to be refactored for sorting and filtering logic. Take another look.
+- [ ] Add feedback meta description sliding up and down when upvote sort is happening using framer motion.
+- [ ] Upvote optimistic update on error add toast notification showing that upvote didn't register.
+- [ ] Check if the flow after form submission is correct or not. Can it be improved? What will happen on error when the request is on flight? Try to improve the UX.

@@ -96,3 +96,12 @@ export const updateFeedbackSchema = z.object({
   }),
   auth: z.any(),
 });
+
+export const upvoteSchema = z.object({
+  body: z.object({
+    id: z.number({ required_error: "Bad request: Feedback ID is required" }),
+  }),
+  query: z.object({}),
+  params: z.object({}),
+  auth: z.any(),
+});

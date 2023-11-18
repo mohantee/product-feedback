@@ -5,6 +5,7 @@ import {
   feedbackByIdSchema,
   feedbackByQuerySchema,
   updateFeedbackSchema,
+  upvoteSchema,
 } from "./feedback.schema";
 import {
   createFeedbackHandler,
@@ -26,9 +27,17 @@ export const feedbackRouter = Router();
 feedbackRouter.route("/roadmap").get(getRoadmapHandler);
 
 feedbackRouter
-  .route("/upvote/:id")
-  .get(ClerkExpressRequireAuth(), upvoteFeedbackHandler)
-  .delete(ClerkExpressRequireAuth(), deupvoteFeedbackHandler);
+  .route("/upvote")
+  .post(
+    validate(upvoteSchema),
+    ClerkExpressRequireAuth(),
+    upvoteFeedbackHandler,
+  )
+  .delete(
+    validate(upvoteSchema),
+    ClerkExpressRequireAuth(),
+    deupvoteFeedbackHandler,
+  );
 
 feedbackRouter
   .route("/")
