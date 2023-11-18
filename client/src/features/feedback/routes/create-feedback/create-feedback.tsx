@@ -3,19 +3,20 @@ import { Input } from "@components/form/input";
 import { TextArea } from "@components/form/text-area";
 import { Dropdown } from "@components/elements/dropdown";
 import { Button } from "@components/elements/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FeedbackCreateIcon } from "@features/feedback/components/feedback-create-icon";
 import { IoChevronBack } from "react-icons/io5";
 import "./create-feedback.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
+import { useCreateFeedback } from "@features/feedback/api/create-feedback";
 
-const OPTIONS = ["UI", "UX", "Feature", "Enhancement", "Bug"];
+const OPTIONS = ["Feature", "UI", "UX", "Enhancement", "Bug"];
 
 interface Inputs {
   title: string;
   category: string;
-  details: string;
+  content: string;
 }
 
 export function CreateFeedback() {
@@ -26,7 +27,17 @@ export function CreateFeedback() {
   } = useForm<Inputs>();
   const [category, setCategory] = useState("Feature");
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const mutation = useCreateFeedback();
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    mutation.mutate({
+      ...data,
+      category: data.category.toLowerCase(),
+      status: "suggestion",
+    });
+    navigate("/feedbacks");
+  };
 
   return (
     <div className="create-feedback__container">
@@ -54,7 +65,13 @@ export function CreateFeedback() {
             id="title"
             name="title"
             register={register}
-            rules={{ required: "Title cannot be left empty." }}
+            rules={{
+              required: "Title cannot be left empty.",
+              maxLength: {
+                value: 150,
+                message: "Title cannot be longer than 150 characters.",
+              },
+            }}
             errors={errors}
           />
           <Label
@@ -70,6 +87,7 @@ export function CreateFeedback() {
             name="category"
             register={register}
             rules={{ required: true }}
+            sideOffset={-8}
           />
           <Label
             htmlFor="details"
@@ -77,16 +95,22 @@ export function CreateFeedback() {
             helperText="Include any helpful comments on what should be improved, added, etc."
           />
           <TextArea
-            id="details"
-            name="details"
+            id="content"
+            name="content"
             register={register}
-            rules={{ required: "Description cannot be left empty." }}
+            rules={{
+              required: "Description cannot be left empty.",
+              maxLength: {
+                value: 500,
+                message: "Description cannot be longer than 500 characters.",
+              },
+            }}
             errors={errors}
           />
         </div>
         <div className="create-feedback__controls">
-          <Button name="Cancel" status="secondary" onClick={() => {}} />
-          <Button name="Add Feedback" status="primary" onClick={() => {}} />
+          <Button name="Cancel" status="secondary" />
+          <Button name="Add Feedback" status="primary" />
         </div>
       </form>
     </div>

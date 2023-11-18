@@ -34,6 +34,7 @@ export const TextArea = <T extends FieldValues>({
         className="textarea"
         value={value}
         rows={4}
+        data-error={errors[name]?.message ? true : false}
         {...(register && register(name, rules))}
       />
 
@@ -41,14 +42,16 @@ export const TextArea = <T extends FieldValues>({
         errors={errors}
         name={name as any}
         render={({ message }) => (
-          <motion.p
+          <motion.div
             key={"bla"}
             initial={{ y: -16 }}
             animate={{ y: 0 }}
             className="textarea__error"
+            role="alert"
+            aria-label={message}
           >
             {message}
-          </motion.p>
+          </motion.div>
         )}
       />
     </div>

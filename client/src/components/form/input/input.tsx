@@ -35,19 +35,24 @@ export const Input = <T extends FieldValues>({
         value={value}
         id={id}
         {...(register && register(name, rules))}
+        data-error={errors[name]?.message ? true : false}
       />
       <ErrorMessage
         errors={errors}
         name={name as any}
-        render={({ message }) => (
-          <motion.p
-            className="input__error"
-            initial={{ y: -16 }}
-            animate={{ y: 0 }}
-          >
-            {message}
-          </motion.p>
-        )}
+        render={({ message }) => {
+          return (
+            <motion.div
+              className="input__error"
+              initial={{ y: -16 }}
+              animate={{ y: 0 }}
+              role="alert"
+              aria-label={message}
+            >
+              {message}
+            </motion.div>
+          );
+        }}
       />
     </div>
   );

@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
 
 interface FeedbackInput {
@@ -12,6 +11,11 @@ interface FeedbackInput {
 export async function createFeedback(data: FeedbackInput) {
   const feedback = await prisma.feedback.create({
     data,
+    include: {
+      _count: {
+        select: { upvotes: true, comments: true },
+      },
+    },
   });
 
   return feedback;
@@ -31,58 +35,10 @@ export function getFeedbackById(id: number) {
       _count: {
         select: {
           upvotes: true,
+          comments: true,
         },
       },
     },
-  });
-}
-
-export function getAllFeedbackByQuery(data: any) {
-  let { filter, sort, order } = data;
-  let orderBy;
-
-  if (data.filter) {
-    let _filter = data.filter as string;
-    filter = JSON.parse(_filter);
-  }
-  if (data.sort) {
-    sort = data.sort as string;
-  }
-  if (data.order) {
-    order = data.order as string;
-  }
-
-  // HACK! see: https://github.com/prisma/prisma/issues/11104#issuecomment-1062556068
-  if (order === "asc") order = Prisma.SortOrder.asc;
-  if (order === "desc") order = Prisma.SortOrder.desc;
-
-  if (sort === "upvotes")
-    orderBy = {
-      [sort]: {
-        _count: order,
-      },
-    };
-  else if (sort === "comments") orderBy = undefined;
-
-  return prisma.feedback.findMany({
-    include: {
-      comments: {
-        include: {
-          replies: true,
-        },
-      },
-      _count: {
-        select: {
-          upvotes: true,
-        },
-      },
-    },
-    where: {
-      category: {
-        in: filter,
-      },
-    },
-    orderBy,
   });
 }
 
@@ -113,6 +69,7 @@ export function getAllFeedback() {
       _count: {
         select: {
           upvotes: true,
+          comments: true,
         },
       },
     },

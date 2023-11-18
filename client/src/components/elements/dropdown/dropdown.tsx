@@ -15,9 +15,10 @@ interface Props<T extends FieldValues> {
   onValueChange?: Dispatch<SetStateAction<any>>;
   trigger?: ReactElement;
   values: string[];
-  register: UseFormRegister<T>;
-  rules: RegisterOptions;
+  register?: UseFormRegister<T>;
+  rules?: RegisterOptions;
   name: Path<T>;
+  sideOffset?: number;
 }
 
 export const Dropdown = <T extends FieldValues>(props: Props<T>) => {
@@ -30,6 +31,7 @@ export const Dropdown = <T extends FieldValues>(props: Props<T>) => {
     value,
     onValueChange,
     trigger,
+    sideOffset = 0,
   } = props;
 
   const defaultTrigger = (
@@ -54,7 +56,7 @@ export const Dropdown = <T extends FieldValues>(props: Props<T>) => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          sideOffset={-8}
+          sideOffset={sideOffset}
           align="start"
           className="dropdown__content"
         >

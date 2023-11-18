@@ -1,1 +1,3 @@
-- [ ] Implement logic for whether the user has upvoted the feedback or not
+- [x] Implement logic for whether the user has upvoted the feedback or not
+- [ ] Remove prop drilling for URL state management
+- [ ] Feedbacks feature on client needs to be refactored for sorting and filtering logic. Take another look.

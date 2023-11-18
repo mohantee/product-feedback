@@ -28,10 +28,10 @@ export function FeedbackMeta(props: Feedback) {
         </Link>
         <p className="feedback-meta__content">{content}</p>
         <div className="feedback-meta__tags"></div>
-        <Tag isPressed={isUpvoted} text={categoryMap[category]} />
+        <Tag isPressed={false} text={categoryMap[category]} />
       </div>
       <div className="feedback-meta__upvote-btn">
-        <UpvoteButton count={_count.upvotes} isPressed={false} />
+        <UpvoteButton count={_count.upvotes} isPressed={isUpvoted} />
       </div>
       <div className="feedback-meta__comments">
         <FaComment style={{ color: "#CDD2EE" }} aria-hidden="true" />

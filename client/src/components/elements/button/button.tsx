@@ -6,7 +6,7 @@ interface Props {
   name: string;
   icon?: ReactElement;
   transition?: "underline" | "opacity";
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export function Button(props: Props) {

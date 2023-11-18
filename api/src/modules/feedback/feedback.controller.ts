@@ -10,10 +10,6 @@ import {
   upvoteFeedback,
   deleteUpvotedFeedback,
 } from "./feedback.service";
-import {
-  getCommentCount,
-  getFeedbacksWithCommentCount,
-} from "./feedback.utils";
 
 export async function createFeedbackHandler(req: Request, res: Response) {
   const userId = req.auth.userId;
@@ -34,12 +30,12 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
     const feedback = await getFeedbackById(id);
     if (!feedback)
       return res.status(400).send({ message: "Feedback ID doesn't exist" });
-    const commentCount = getCommentCount(feedback.comments);
-    const feedbackWithCommentCount = {
-      ...feedback,
-      _count: { ...feedback._count, comments: commentCount },
-    };
-    return res.status(200).send(feedbackWithCommentCount);
+    // const commentCount = getCommentCount(feedback.comments);
+    // const feedbackWithCommentCount = {
+    //   ...feedback,
+    //   _count: { ...feedback._count, comments: commentCount },
+    // };
+    return res.status(200).send(feedback);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -47,11 +43,11 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
 
 export async function getAllFeedbackHandler(req: Request, res: Response) {
   const { userId } = req.auth;
+  console.log(userId);
   const feedbacks = await getAllFeedback();
-  const feedbacksWithCommentCount = getFeedbacksWithCommentCount(feedbacks);
 
   const feedbacksWithUpvoteStatus = await Promise.all(
-    feedbacksWithCommentCount.map(async (feedback) => {
+    feedbacks.map(async (feedback) => {
       let isUpvoted;
       if (userId) {
         isUpvoted = await getUpvotedFeedback(feedback.id, userId);

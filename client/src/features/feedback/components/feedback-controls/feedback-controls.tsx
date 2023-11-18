@@ -66,6 +66,7 @@ export function FeedbackControls({ searchParams }: SearchParamProps) {
           }
           ariaLabel="Filter feedbacks"
           trigger={trigger}
+          name="Filter"
         />
       </div>
       <Button
