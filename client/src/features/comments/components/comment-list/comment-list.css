@@ -1,0 +1,16 @@
+.comment-list {
+  background-color: hsl(var(--clr-light-300));
+  border-radius: 10px;
+  padding: 2rem;
+
+  .separator-horizontal {
+    background-color: hsl(var(--clr-dark-400-15pc));
+    height: 1px;
+    margin: 2rem 0;
+  }
+}
+
+.comment-list__count {
+  font-size: var(--fs-heading-200);
+  margin-bottom: 1.75rem;
+}

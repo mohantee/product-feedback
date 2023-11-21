@@ -1,6 +1,6 @@
 import { SetURLSearchParams } from "react-router-dom";
 
-interface Comment {
+export interface Comment {
   id: string;
   content: string;
   feedbackId: number;
@@ -9,6 +9,9 @@ interface Comment {
   createdAt: string;
   updatedAt: string;
   replies: Comment[];
+  avatar: string;
+  fullName: string;
+  userName: string;
 }
 
 export interface Feedback {

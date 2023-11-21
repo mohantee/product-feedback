@@ -52,6 +52,7 @@ export function FeedbackMeta(props: Feedback) {
 
 export function FeedbackList({ searchParams }: SearchParamProps) {
   const { data: feedbacks } = useFeedbacks();
+
   let processedFeedbacks;
 
   if (feedbacks) {

@@ -8,7 +8,7 @@ export function Feedbacks() {
   const searchParams = useFilterParams();
 
   return (
-    <div className="feedback-container">
+    <div className="feedbacks-container">
       <Aside searchParams={searchParams} />
       <div className="feedback-list">
         <FeedbackControls searchParams={searchParams} />

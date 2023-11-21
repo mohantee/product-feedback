@@ -8,7 +8,7 @@ export const getFeedback = (feedbackId: number): Promise<Feedback> => {
 
 export const useFeedback = (feedbackId: number) => {
   return useQuery<Feedback, Error>({
-    queryKey: ["feedback", feedbackId],
+    queryKey: ["feedbacks", feedbackId],
     queryFn: () => getFeedback(feedbackId),
   });
 };

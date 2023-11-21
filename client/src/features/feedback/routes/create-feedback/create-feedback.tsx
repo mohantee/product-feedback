@@ -26,14 +26,13 @@ export function CreateFeedback() {
     formState: { errors },
   } = useForm<Inputs>();
   const [category, setCategory] = useState("Feature");
-
   const mutation = useCreateFeedback();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     mutation.mutate({
       ...data,
-      category: data.category.toLowerCase(),
+      category: category.toLowerCase(),
       status: "suggestion",
     });
     navigate("/feedbacks");
