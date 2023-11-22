@@ -1,13 +1,22 @@
 .comment-meta {
   display: flex;
+  scroll-margin-top: 1rem;
+  padding: 1rem 2rem;
+  outline: none;
+  border-radius: 3px;
+  animation: outline 0.3s ease;
 }
 
-.comment-meta:not(:last-child) {
-  margin-bottom: 2rem;
+.comment-meta:last-child {
+  padding-bottom: 2rem;
 }
 
 .comment-meta[data-reply="true"] {
   margin-left: 3rem;
+}
+
+.comment-meta:target {
+  animation: flash 2s;
 }
 
 .comment-meta__img {
@@ -61,4 +70,18 @@
   font-size: var(--fs-body-200);
   font-weight: 700;
   color: hsl(var(--clr-secondary));
+}
+
+.comment-meta__replying-to {
+  color: hsl(var(--clr-primary));
+  font-weight: 700;
+}
+
+@keyframes flash {
+  from {
+    background-color: hsl(var(--clr-primary) / 0.5);
+  }
+  to {
+    background-color: transparent;
+  }
 }

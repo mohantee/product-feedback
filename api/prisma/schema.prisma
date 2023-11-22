@@ -23,16 +23,20 @@ model Feedback {
 }
 
 model Comment {
-  id            Int       @id @default(autoincrement())
-  content       String
-  feedback      Feedback? @relation(fields: [feedbackId], references: [id])
-  feedbackId    Int?
-  userId        String
-  predecessorId Int?
-  predecessor   Comment?  @relation("CommentChain", fields: [predecessorId], references: [id])
-  replies       Comment[] @relation("CommentChain")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                  Int       @id @default(autoincrement())
+  content             String
+  feedback            Feedback? @relation(fields: [feedbackId], references: [id])
+  feedbackId          Int?
+  userId              String
+  predecessorId       Int?
+  predecessor         Comment?  @relation("CommentChain", fields: [predecessorId], references: [id])
+  replies             Comment[] @relation("CommentChain")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  userName            String
+  fullName            String
+  avatar              String?
+  predecessorUsername String?
 }
 
 model Upvote {

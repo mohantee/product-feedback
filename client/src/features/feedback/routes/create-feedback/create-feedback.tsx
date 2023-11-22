@@ -30,7 +30,7 @@ export function CreateFeedback() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    mutation.mutate({
+    await mutation.mutateAsync({
       ...data,
       category: category.toLowerCase(),
       status: "suggestion",

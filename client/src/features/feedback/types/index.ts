@@ -1,14 +1,15 @@
 import { SetURLSearchParams } from "react-router-dom";
 
 export interface Comment {
-  id: string;
+  id: number;
   content: string;
-  feedbackId: number;
-  userId: string;
-  predecessorId: string | null;
+  feedbackId?: number;
+  userId: number;
+  predecessorId?: number;
   createdAt: string;
   updatedAt: string;
-  replies: Comment[];
+  replies?: Comment[];
+  predecessorUsername: string;
   avatar: string;
   fullName: string;
   userName: string;

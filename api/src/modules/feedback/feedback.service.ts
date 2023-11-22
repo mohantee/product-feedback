@@ -1,4 +1,6 @@
+import { Feedback } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
+import { recursive } from "./feedback.helpers";
 
 interface FeedbackInput {
   title: string;
@@ -29,7 +31,7 @@ export function getFeedbackById(id: number) {
     include: {
       comments: {
         include: {
-          replies: true,
+          replies: recursive(30),
         },
       },
       _count: {

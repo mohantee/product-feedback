@@ -54,7 +54,11 @@ feedbackRouter
 
 feedbackRouter
   .route("/:id")
-  .get(validate(feedbackByIdSchema), getFeedbackByIdHandler)
+  .get(
+    validate(feedbackByIdSchema),
+    ClerkExpressWithAuth(),
+    getFeedbackByIdHandler,
+  )
   .put(
     validate(updateFeedbackSchema),
     ClerkExpressRequireAuth(),

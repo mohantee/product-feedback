@@ -10,6 +10,9 @@ import {
   upvoteFeedback,
   deleteUpvotedFeedback,
 } from "./feedback.service";
+import { getUpvoteStatus } from "./feedback.helpers";
+import clerkClient from "@clerk/clerk-sdk-node";
+import { Feedback } from "@prisma/client";
 
 export async function createFeedbackHandler(req: Request, res: Response) {
   const userId = req.auth.userId;
@@ -26,16 +29,26 @@ export async function createFeedbackHandler(req: Request, res: Response) {
 
 export async function getFeedbackByIdHandler(req: Request, res: Response) {
   const id = parseInt(req.params.id);
+  const { userId } = req.auth;
+  if (!userId) {
+    return res.status(400).send({ message: "Unauthenticated request" });
+  }
+
+  const user = await clerkClient.users.getUser(userId);
+
   try {
     const feedback = await getFeedbackById(id);
     if (!feedback)
       return res.status(400).send({ message: "Feedback ID doesn't exist" });
-    // const commentCount = getCommentCount(feedback.comments);
-    // const feedbackWithCommentCount = {
-    //   ...feedback,
-    //   _count: { ...feedback._count, comments: commentCount },
-    // };
-    return res.status(200).send(feedback);
+    const feedbacksWithUpvoteStatus = await getUpvoteStatus([feedback], userId);
+
+    return res.status(200).send({
+      ...feedbacksWithUpvoteStatus[0],
+      user: {
+        fullName: `${user.firstName} ${user.lastName}`,
+        userName: user.username,
+      },
+    });
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -43,20 +56,13 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
 
 export async function getAllFeedbackHandler(req: Request, res: Response) {
   const { userId } = req.auth;
+
+  if (!userId) {
+    return res.status(400).send({ message: "Unauthenticated request" });
+  }
   const feedbacks = await getAllFeedback();
 
-  const feedbacksWithUpvoteStatus = await Promise.all(
-    feedbacks.map(async (feedback) => {
-      let isUpvoted;
-      if (userId) {
-        isUpvoted = await getUpvotedFeedback(feedback.id, userId);
-      } else {
-        isUpvoted = false;
-      }
-      return { ...feedback, isUpvoted: !!isUpvoted };
-    }),
-  );
-
+  const feedbacksWithUpvoteStatus = await getUpvoteStatus(feedbacks, userId);
   return res.status(200).send(feedbacksWithUpvoteStatus);
 }
 
@@ -104,7 +110,6 @@ export async function getRoadmapHandler(_: Request, res: Response) {
 }
 
 export async function upvoteFeedbackHandler(req: Request, res: Response) {
-  console.log("hi");
   if (!req.auth.userId)
     return res.status(400).send({ error: "Unauthenticated request" });
   const feedbackId = parseInt(req.body.id);

@@ -43,6 +43,7 @@ export const Dropdown = <T extends FieldValues>(props: Props<T>) => {
         value={value}
         aria-label={ariaLabel}
         readOnly
+        {...(register && register(name, rules))}
       />
       <FaChevronDown className="dropdown__icon" />
     </div>
@@ -59,11 +60,7 @@ export const Dropdown = <T extends FieldValues>(props: Props<T>) => {
           align="start"
           className="dropdown__content"
         >
-          <DropdownMenu.RadioGroup
-            value={value}
-            onValueChange={onValueChange}
-            {...(register && register(name, rules))}
-          >
+          <DropdownMenu.RadioGroup value={value} onValueChange={onValueChange}>
             {values.map((option, i) => {
               const lastIndex = values.length - 1;
               return (

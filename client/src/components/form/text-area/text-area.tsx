@@ -17,6 +17,7 @@ interface Props<T extends FieldValues> {
   name: Path<T>;
   rules: RegisterOptions;
   errors: Partial<DeepMap<T, FieldError>>;
+  autoFocus?: boolean;
 }
 
 export const TextArea = <T extends FieldValues>({
@@ -26,6 +27,7 @@ export const TextArea = <T extends FieldValues>({
   name,
   errors,
   register,
+  autoFocus,
 }: Props<T>) => {
   return (
     <div className="textarea-group">
@@ -36,6 +38,7 @@ export const TextArea = <T extends FieldValues>({
         rows={4}
         data-error={errors[name]?.message ? true : false}
         {...(register && register(name, rules))}
+        autoFocus={autoFocus}
       />
 
       <ErrorMessage

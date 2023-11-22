@@ -1,0 +1,12 @@
+.form-reply {
+  margin-left: 3rem;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 2rem 0;
+
+  .textarea-group {
+    width: 75%;
+  }
+}

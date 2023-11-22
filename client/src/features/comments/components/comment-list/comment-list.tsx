@@ -8,7 +8,6 @@ interface Props {
 }
 
 export function CommentList(props: Props) {
-  console.log(props);
   return (
     <div className="comment-list">
       <h4 className="comment-list__count">{props.comments.length} Comments</h4>

@@ -5,7 +5,7 @@ export const createCommentSchema = z.object({
     z
       .object({
         content: z.string(),
-        feedbackId: z.number(),
+        feedbackId: z.number().optional(),
       })
       .strict(),
     z
@@ -15,4 +15,16 @@ export const createCommentSchema = z.object({
       })
       .strict(),
   ]),
+});
+
+export const getCommentsByFeedbackIdSchema = z.object({
+  body: z.object({
+    feedbackId: z.number(),
+  }),
+});
+
+export const getUserByCommentIdSchema = z.object({
+  params: z.object({
+    commentId: z.string(),
+  }),
 });
