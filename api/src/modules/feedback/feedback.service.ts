@@ -1,4 +1,3 @@
-import { Feedback } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
 import { recursive } from "./feedback.helpers";
 

@@ -14,6 +14,11 @@
 
 .btn[data-type="primary"] {
   background-color: hsl(var(--clr-primary));
+
+  &:disabled {
+    background-color: hsl(var(--clr-primary) / 0.2);
+    pointer-events: none;
+  }
 }
 
 .btn[data-type="secondary"] {

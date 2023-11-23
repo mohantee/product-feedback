@@ -12,7 +12,6 @@ import {
 } from "./feedback.service";
 import { getUpvoteStatus } from "./feedback.helpers";
 import clerkClient from "@clerk/clerk-sdk-node";
-import { Feedback } from "@prisma/client";
 
 export async function createFeedbackHandler(req: Request, res: Response) {
   const userId = req.auth.userId;

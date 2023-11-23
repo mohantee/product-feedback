@@ -13,7 +13,7 @@ import { ErrorMessage } from "@hookform/error-message";
 interface Props<T extends FieldValues> {
   value?: string;
   id: string;
-  register: UseFormRegister<T>;
+  register?: UseFormRegister<T>;
   rules: RegisterOptions;
   name: Path<T>;
   errors: Partial<DeepMap<T, FieldError>>;

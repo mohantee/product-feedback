@@ -11,7 +11,7 @@ export function FeedbackRoutes() {
       <Route path="" element={<Feedbacks />} />
       <Route path=":id" element={<Feedback />} />
       <Route path="create" element={<CreateFeedback />} />
-      <Route path="edit" element={<EditFeedback />} />
+      <Route path="edit/:id" element={<EditFeedback />} />
       <Route path="roadmap" element={<FeedbackRoadmap />} />
     </Routes>
   );

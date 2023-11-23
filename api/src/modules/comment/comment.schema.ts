@@ -1,20 +1,17 @@
 import { z } from "zod";
 
 export const createCommentSchema = z.object({
-  body: z.union([
-    z
-      .object({
-        content: z.string(),
-        feedbackId: z.number().optional(),
-      })
-      .strict(),
-    z
-      .object({
-        content: z.string(),
-        predecessorId: z.number(),
-      })
-      .strict(),
-  ]),
+  body: z
+    .object({
+      content: z.string(),
+      feedbackId: z.number(),
+      predecessorId: z.number(),
+    })
+    .partial()
+    .refine(
+      (data) => data.feedbackId || data.predecessorId,
+      "Either feedbackId or predecessorId should be passed.",
+    ),
 });
 
 export const getCommentsByFeedbackIdSchema = z.object({

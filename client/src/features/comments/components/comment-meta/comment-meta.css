@@ -12,10 +12,10 @@
 }
 
 .comment-meta[data-reply="true"] {
-  margin-left: 3rem;
+  padding-left: 5rem;
 }
 
-.comment-meta:target {
+.comment-meta:focus {
   animation: flash 2s;
 }
 
@@ -66,7 +66,7 @@
   border: none;
   padding: 0;
   margin: 0;
-  background-color: hsl(var(--clr-light-300));
+  background-color: hsl(var(--clr-light-300) / 0);
   font-size: var(--fs-body-200);
   font-weight: 700;
   color: hsl(var(--clr-secondary));
@@ -79,7 +79,7 @@
 
 @keyframes flash {
   from {
-    background-color: hsl(var(--clr-primary) / 0.5);
+    background-color: hsl(var(--clr-primary) / 0.3);
   }
   to {
     background-color: transparent;

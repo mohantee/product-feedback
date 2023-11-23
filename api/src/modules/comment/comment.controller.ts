@@ -7,7 +7,6 @@ import {
 import clerkClient from "@clerk/clerk-sdk-node";
 
 export async function createCommentHandler(req: Request, res: Response) {
-  console.log(req.body);
   try {
     const userId = req.auth.userId as string;
     const user = await clerkClient.users.getUser(userId);

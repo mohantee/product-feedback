@@ -5,6 +5,7 @@ import { Button } from "@components/elements/button";
 import "./feedback.css";
 import { IoChevronBack } from "react-icons/io5";
 import { CommentList } from "@features/comments/components/comment-list";
+import { CommentInput } from "@features/comments/components/comment-input";
 
 interface Params {
   id: string;
@@ -30,10 +31,13 @@ export function Feedback() {
             status="blank"
           />
         </Link>
-        <Button name="Edit Feedback" status="accent" transition="opacity" />
+        <Link to={`/feedbacks/edit/${feedback.id}`}>
+          <Button name="Edit Feedback" status="accent" transition="opacity" />
+        </Link>
       </div>
       <FeedbackMeta {...feedback} />
       <CommentList comments={feedback.comments} />
+      <CommentInput feedbackId={_id} />
     </div>
   );
 }

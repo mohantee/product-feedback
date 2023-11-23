@@ -5,13 +5,13 @@ import { ReplyInput } from "../reply-input";
 
 export function CommentMeta(props: Comment) {
   const [replyActive, setReplyActive] = useState(false);
-  console.log(props);
   return (
     <>
       <div
         className="comment-meta"
         data-reply={props.feedbackId ? "false" : "true"}
         id={`comment-${props.id}`}
+        tabIndex={0}
       >
         <img src={props.avatar} alt="avatar" className="comment-meta__img" />
         <div className="comment-meta__group">
@@ -33,6 +33,11 @@ export function CommentMeta(props: Comment) {
                 className="comment-meta__replying-to"
                 aria-label={`Replying to ${props.predecessorUsername}`}
                 href={`#comment-${props.predecessorId}`}
+                onClick={() =>
+                  document
+                    .getElementById(`comment-${props.predecessorId}`)
+                    ?.focus()
+                }
               >
                 @{props.predecessorUsername}
               </a>

@@ -1,0 +1,32 @@
+.comment-input {
+  background-color: hsl(var(--clr-light-300));
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+
+  .textarea__error {
+    display: none;
+  }
+}
+
+.comment-input__label {
+  font-size: var(--fs-heading-200);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.comment-input__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-input__info {
+  color: hsl(var(--clr-dark-300));
+  font-size: var(--fs-body-300);
+}
+
+.comment-input__info[data-error="true"] {
+  color: hsl(var(--clr-alert));
+}

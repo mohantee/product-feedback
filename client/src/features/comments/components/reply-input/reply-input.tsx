@@ -20,7 +20,7 @@ export function ReplyInput(props: Props) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await mutation.mutateAsync({
@@ -37,7 +37,7 @@ export function ReplyInput(props: Props) {
         id="reply"
         register={register}
         name="reply"
-        rules={{ required: "Reply cannot be empty" }}
+        rules={{ required: "Reply cannot be empty", maxLength: 225 }}
         autoFocus
       />
       <Button name="Post Reply" status="primary" />

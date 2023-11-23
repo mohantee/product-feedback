@@ -100,15 +100,15 @@ export function CreateFeedback() {
             rules={{
               required: "Description cannot be left empty.",
               maxLength: {
-                value: 500,
-                message: "Description cannot be longer than 500 characters.",
+                value: 255,
+                message: "Description cannot be longer than 255 characters.",
               },
             }}
             errors={errors}
           />
         </div>
         <div className="create-feedback__controls">
-          <Button name="Cancel" status="secondary" />
+          <Button name="Cancel" status="secondary" type="button" />
           <Button name="Add Feedback" status="primary" />
         </div>
       </form>
