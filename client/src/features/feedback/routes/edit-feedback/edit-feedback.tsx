@@ -1,32 +1,96 @@
 import { Button } from "@components/elements/button";
-import { Dropdown } from "@components/elements/dropdown";
+import { SelectMenu } from "@components/elements/select";
 import { Input } from "@components/form/input";
 import { Label } from "@components/form/label";
 import { TextArea } from "@components/form/text-area";
+import { useFeedback } from "@features/feedback/api/get-feedback";
 import { FeedbackEditIcon } from "@features/feedback/components/feedback-edit-icon";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-const CATEGORY_OPTIONS = ["Feature", "UI", "UX", "Enhancement", "Bug"];
-const STATUS_OPTIONS = ["Suggestion", "Planned", "In Progress", "Live"];
+const CATEGORY_OPTIONS = [
+  {
+    name: "UI",
+    value: "ui",
+  },
+  {
+    name: "UX",
+    value: "ux",
+  },
+  {
+    name: "Feature",
+    value: "feature",
+  },
+  {
+    name: "Enhancement",
+    value: "enhancement",
+  },
+  {
+    name: "Bug",
+    value: "bug",
+  },
+];
+
+const STATUS_OPTIONS = [
+  {
+    name: "Suggestion",
+    value: "suggestion",
+  },
+  {
+    name: "Planned",
+    value: "planned",
+  },
+  {
+    name: "In Progress",
+    value: "in_progress",
+  },
+  {
+    name: "Live",
+    value: "live",
+  },
+];
 
 interface Inputs {
   title: string;
-  category: (typeof CATEGORY_OPTIONS)[number];
-  status: (typeof STATUS_OPTIONS)[number];
+  category: string;
+  status: string;
   content: string;
 }
 
+interface Params {
+  id: string;
+}
+
 export function EditFeedback() {
+  const { id } = useParams<keyof Params>() as Params;
+  const _id = parseInt(id);
+  const { data: feedback } = useFeedback(_id);
+
   const {
     formState: { errors },
     register,
+    control,
     handleSubmit,
+    setValue,
   } = useForm<Inputs>();
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    if (feedback) {
+      setValue("status", feedback.status);
+      setValue("category", feedback.category);
+    }
+  }, [feedback]);
+
+  if (!feedback) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <div className="edit-feedback__container">
       <div className="btn-back">
@@ -50,6 +114,7 @@ export function EditFeedback() {
             helperText="Add a short, descriptive headline"
           />
           <Input
+            defaultValue={feedback.title}
             id="title"
             name="title"
             rules={{
@@ -67,28 +132,42 @@ export function EditFeedback() {
             primaryText="Category"
             helperText="Choose a category for your feedback"
           />
-          <Dropdown
-            value={""}
-            onValueChange={() => {}}
-            values={CATEGORY_OPTIONS}
-            ariaLabel="Category"
+          <Controller
+            control={control}
             name="category"
-            rules={{ required: true }}
-            sideOffset={-8}
+            render={({ field }) => (
+              <SelectMenu
+                options={CATEGORY_OPTIONS}
+                defaultValue={feedback.category}
+                ariaLabel="category"
+                register={register}
+                name="category"
+                /* 
+                // @ts-ignore */
+                field={field}
+              />
+            )}
           />
           <Label
             htmlFor="status"
             primaryText="Status"
             helperText="Edit status for your feedback"
           />
-          <Dropdown
-            value={""}
-            onValueChange={() => {}}
-            values={STATUS_OPTIONS}
-            ariaLabel="Category"
-            name="category"
-            rules={{ required: true }}
-            sideOffset={-8}
+          <Controller
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <SelectMenu
+                options={STATUS_OPTIONS}
+                defaultValue={feedback.status}
+                ariaLabel="category"
+                register={register}
+                name="category"
+                /* 
+                // @ts-ignore */
+                field={field}
+              />
+            )}
           />
           <Label
             htmlFor="details"
@@ -96,6 +175,7 @@ export function EditFeedback() {
             helperText="Include any helpful comments on what should be improved, added, etc."
           />
           <TextArea
+            defaultValue={feedback.content}
             id="content"
             name="content"
             rules={{

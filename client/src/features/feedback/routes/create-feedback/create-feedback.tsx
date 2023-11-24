@@ -1,17 +1,37 @@
 import { Label } from "@components/form/label";
 import { Input } from "@components/form/input";
 import { TextArea } from "@components/form/text-area";
-import { Dropdown } from "@components/elements/dropdown";
 import { Button } from "@components/elements/button";
 import { Link, useNavigate } from "react-router-dom";
 import { FeedbackCreateIcon } from "@features/feedback/components/feedback-create-icon";
 import { IoChevronBack } from "react-icons/io5";
 import "./create-feedback.css";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useCreateFeedback } from "@features/feedback/api/create-feedback";
+import { SelectMenu } from "@components/elements/select";
 
-const OPTIONS = ["Feature", "UI", "UX", "Enhancement", "Bug"];
+const OPTIONS = [
+  {
+    name: "ui",
+    value: "ui",
+  },
+  {
+    name: "ux",
+    value: "ux",
+  },
+  {
+    name: "feature",
+    value: "feature",
+  },
+  {
+    name: "enhancement",
+    value: "enhancement",
+  },
+  {
+    name: "bug",
+    value: "bug",
+  },
+];
 
 interface Inputs {
   title: string;
@@ -23,16 +43,24 @@ export function CreateFeedback() {
   const {
     register,
     handleSubmit,
+    watch,
+    control,
     formState: { errors },
-  } = useForm<Inputs>();
-  const [category, setCategory] = useState("Feature");
+  } = useForm<Inputs>({
+    defaultValues: {
+      title: "",
+      category: "feature",
+      content: "",
+    },
+  });
   const mutation = useCreateFeedback();
   const navigate = useNavigate();
+
+  console.log(watch("category"));
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await mutation.mutateAsync({
       ...data,
-      category: category.toLowerCase(),
       status: "suggestion",
     });
     navigate("/feedbacks");
@@ -78,16 +106,23 @@ export function CreateFeedback() {
             primaryText="Category"
             helperText="Choose a category for your feedback"
           />
-          <Dropdown
-            value={category}
-            onValueChange={setCategory}
-            values={OPTIONS}
-            ariaLabel="Category"
+          <Controller
+            control={control}
             name="category"
-            register={register}
-            rules={{ required: true }}
-            sideOffset={-8}
+            render={({ field }) => (
+              <SelectMenu
+                options={OPTIONS}
+                defaultValue="feature"
+                ariaLabel="category"
+                register={register}
+                name="category"
+                /* 
+                // @ts-ignore */
+                field={field}
+              />
+            )}
           />
+
           <Label
             htmlFor="details"
             primaryText="Feedback Detail"

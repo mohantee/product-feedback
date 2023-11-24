@@ -17,6 +17,7 @@ interface Props<T extends FieldValues> {
   rules: RegisterOptions;
   name: Path<T>;
   errors: Partial<DeepMap<T, FieldError>>;
+  defaultValue?: string;
 }
 
 export const Input = <T extends FieldValues>({
@@ -26,6 +27,7 @@ export const Input = <T extends FieldValues>({
   rules,
   errors,
   name,
+  defaultValue,
 }: Props<T>) => {
   return (
     <div className="input-group">
@@ -36,6 +38,7 @@ export const Input = <T extends FieldValues>({
         id={id}
         {...(register && register(name, rules))}
         data-error={errors[name]?.message ? true : false}
+        defaultValue={defaultValue}
       />
       <ErrorMessage
         errors={errors}

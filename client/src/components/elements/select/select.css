@@ -1,0 +1,52 @@
+.SelectTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 20rem;
+  padding: 0.8125rem 1.5rem;
+  border-radius: 5px;
+  background-color: hsl(var(--clr-light-400));
+  border: none;
+  font-size: var(--fs-body-300);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: hsl(var(--clr-light-500));
+  }
+}
+
+.SelectIcon {
+  color: hsl(var(--clr-secondary));
+}
+
+.SelectContent {
+  background-color: hsl(var(--clr-light-300));
+  box-shadow: 0px 10px 40px -7px rgba(55, 63, 104, 0.35);
+  border-radius: 10px;
+  z-index: 2;
+}
+
+.SelectItem {
+  color: hsl(var(--clr-dark-300));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--radix-select-trigger-width);
+  padding: 0.75rem 1.5rem;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid hsl(var(--clr-dark-400-15pc));
+  }
+
+  &:hover {
+    outline: none;
+    color: hsl(var(--clr-primary));
+  }
+}
+
+.SelectItemIndicator {
+  color: hsl(var(--clr-primary));
+}
