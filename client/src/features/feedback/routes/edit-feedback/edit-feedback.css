@@ -1,0 +1,40 @@
+.edit-feedback__container {
+  max-width: 34rem;
+  margin-inline: auto;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.edit-feedback {
+  background-color: hsl(var(--clr-light-300));
+  padding: 3.25rem 2.625rem 2.5rem;
+  border-radius: 10px;
+  position: relative;
+
+  .SelectTrigger {
+    margin-bottom: 1.5rem;
+  }
+
+  margin-bottom: 4rem;
+}
+
+.edit-feedback__icon {
+  position: absolute;
+  top: -1.5rem;
+}
+
+.edit-feedback__heading {
+  font-size: var(--fs-heading-400);
+  margin-bottom: 2.5rem;
+}
+
+.edit-feedback__controls {
+  display: flex;
+  gap: 1rem;
+
+  .btn:first-of-type {
+    margin-right: auto;
+  }
+}

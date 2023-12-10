@@ -16,6 +16,7 @@ import {
   upvoteFeedbackHandler,
   deupvoteFeedbackHandler,
   getAllFeedbackHandler,
+  getFeedbacksByRoadmapStatus,
 } from "./feedback.controller";
 import {
   ClerkExpressRequireAuth,
@@ -25,6 +26,9 @@ import {
 export const feedbackRouter = Router();
 
 feedbackRouter.route("/roadmap").get(getRoadmapHandler);
+feedbackRouter
+  .route("/roadmaps")
+  .get(ClerkExpressWithAuth(), getFeedbacksByRoadmapStatus);
 
 feedbackRouter
   .route("/upvote")

@@ -143,3 +143,19 @@ export async function deleteUpvotedFeedback(id: number) {
     },
   });
 }
+
+export async function getFeedbacksByStatus(status: string) {
+  return prisma.feedback.findMany({
+    where: {
+      status,
+    },
+    include: {
+      _count: {
+        select: {
+          upvotes: true,
+          comments: true,
+        },
+      },
+    },
+  });
+}

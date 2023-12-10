@@ -9,6 +9,7 @@ import {
   updateFeedback,
   upvoteFeedback,
   deleteUpvotedFeedback,
+  getFeedbacksByStatus,
 } from "./feedback.service";
 import { getUpvoteStatus } from "./feedback.helpers";
 import clerkClient from "@clerk/clerk-sdk-node";
@@ -28,12 +29,12 @@ export async function createFeedbackHandler(req: Request, res: Response) {
 
 export async function getFeedbackByIdHandler(req: Request, res: Response) {
   const id = parseInt(req.params.id);
+  let user;
   const { userId } = req.auth;
-  if (!userId) {
-    return res.status(400).send({ message: "Unauthenticated request" });
+  if (userId) {
+    // return res.status(400).send({ message: "Unauthenticated request" });
+    user = await clerkClient.users.getUser(userId);
   }
-
-  const user = await clerkClient.users.getUser(userId);
 
   try {
     const feedback = await getFeedbackById(id);
@@ -43,10 +44,6 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
 
     return res.status(200).send({
       ...feedbacksWithUpvoteStatus[0],
-      user: {
-        fullName: `${user.firstName} ${user.lastName}`,
-        userName: user.username,
-      },
     });
   } catch (error) {
     return res.status(500).send(error);
@@ -56,9 +53,6 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
 export async function getAllFeedbackHandler(req: Request, res: Response) {
   const { userId } = req.auth;
 
-  if (!userId) {
-    return res.status(400).send({ message: "Unauthenticated request" });
-  }
   const feedbacks = await getAllFeedback();
 
   const feedbacksWithUpvoteStatus = await getUpvoteStatus(feedbacks, userId);
@@ -70,6 +64,10 @@ export async function updateFeedbackHandler(req: Request, res: Response) {
 
   const userId = req.auth.userId;
   req.body.userId = userId;
+
+  if (!userId) {
+    return res.status(400).send({ message: "Authentication error" });
+  }
 
   const body = req.body;
   try {
@@ -152,6 +150,32 @@ export async function deupvoteFeedbackHandler(req: Request, res: Response) {
     // otherwise remove the upvote
     const deletedFeedback = await deleteUpvotedFeedback(upvoteId);
     return res.status(200).send(deletedFeedback);
+  } catch (error) {
+    return res.status(500).send({ error });
+  }
+}
+
+export async function getFeedbacksByRoadmapStatus(req: Request, res: Response) {
+  const { userId } = req.auth;
+  try {
+    const live = await getFeedbacksByStatus("live");
+    const inProgress = await getFeedbacksByStatus("in_progress");
+    const planned = await getFeedbacksByStatus("planned");
+
+    const liveWithUpvoteStatus = await getUpvoteStatus(live, userId);
+    const inProgressWithUpvoteStatus = await getUpvoteStatus(
+      inProgress,
+      userId,
+    );
+    const plannedWithUpvoteStatus = await getUpvoteStatus(planned, userId);
+
+    return res
+      .status(200)
+      .send({
+        live: liveWithUpvoteStatus,
+        in_progress: inProgressWithUpvoteStatus,
+        planned: plannedWithUpvoteStatus,
+      });
   } catch (error) {
     return res.status(500).send({ error });
   }

@@ -1,14 +1,16 @@
+import "./edit-feedback.css";
 import { Button } from "@components/elements/button";
 import { SelectMenu } from "@components/elements/select";
 import { Input } from "@components/form/input";
 import { Label } from "@components/form/label";
 import { TextArea } from "@components/form/text-area";
+import { useEditFeedback } from "@features/feedback/api/edit-feedback";
 import { useFeedback } from "@features/feedback/api/get-feedback";
 import { FeedbackEditIcon } from "@features/feedback/components/feedback-edit-icon";
 import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const CATEGORY_OPTIONS = [
   {
@@ -67,6 +69,8 @@ export function EditFeedback() {
   const { id } = useParams<keyof Params>() as Params;
   const _id = parseInt(id);
   const { data: feedback } = useFeedback(_id);
+  const editFeedback = useEditFeedback(_id);
+  const navigate = useNavigate();
 
   const {
     formState: { errors },
@@ -77,7 +81,9 @@ export function EditFeedback() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
+    if (!feedback) return;
+    editFeedback.mutateAsync({ args: data, id: feedback.id });
+    navigate(`/feedbacks/${feedback.id}`);
   };
 
   useEffect(() => {
@@ -94,7 +100,7 @@ export function EditFeedback() {
   return (
     <div className="edit-feedback__container">
       <div className="btn-back">
-        <Link to="/feedbacks">
+        <Link to={`/feedbacks/${feedback.id}`}>
           <Button
             name="Go back"
             status="blank"
@@ -106,7 +112,7 @@ export function EditFeedback() {
       </div>
       <form className="edit-feedback" onSubmit={handleSubmit(onSubmit)}>
         <FeedbackEditIcon />
-        <h1 className="edit-feedback__heading">Edit Feedback</h1>
+        <h1 className="edit-feedback__heading">Editing "{feedback.title}"</h1>
         <div className="create-feedback__inputs">
           <Label
             htmlFor="title"
@@ -192,7 +198,7 @@ export function EditFeedback() {
         <div className="edit-feedback__controls">
           <Button name="Delete" status="alert" type="button" />
           <Button name="Cancel" status="secondary" type="button" />
-          <Button name="Add Feedback" status="primary" />
+          <Button name="Update" status="primary" />
         </div>
       </form>
     </div>

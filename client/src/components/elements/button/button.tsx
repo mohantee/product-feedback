@@ -1,5 +1,5 @@
 import "./button.css";
-import { ButtonHTMLAttributes, ReactElement } from "react";
+import { ReactElement } from "react";
 
 interface Props {
   status: "primary" | "secondary" | "accent" | "alert" | "blank";

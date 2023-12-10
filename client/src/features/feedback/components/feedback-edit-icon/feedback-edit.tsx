@@ -6,6 +6,7 @@ export function FeedbackEditIcon() {
       height="56"
       viewBox="0 0 56 56"
       fill="none"
+      className="edit-feedback__icon"
     >
       <circle cx="28" cy="28" r="28" fill="url(#paint0_radial_0_1239)" />
       <path

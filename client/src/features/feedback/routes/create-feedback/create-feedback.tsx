@@ -12,23 +12,23 @@ import { SelectMenu } from "@components/elements/select";
 
 const OPTIONS = [
   {
-    name: "ui",
+    name: "UI",
     value: "ui",
   },
   {
-    name: "ux",
+    name: "UX",
     value: "ux",
   },
   {
-    name: "feature",
+    name: "Feature",
     value: "feature",
   },
   {
-    name: "enhancement",
+    name: "Enhancement",
     value: "enhancement",
   },
   {
-    name: "bug",
+    name: "Bug",
     value: "bug",
   },
 ];
@@ -43,7 +43,6 @@ export function CreateFeedback() {
   const {
     register,
     handleSubmit,
-    watch,
     control,
     formState: { errors },
   } = useForm<Inputs>({
@@ -55,8 +54,6 @@ export function CreateFeedback() {
   });
   const mutation = useCreateFeedback();
   const navigate = useNavigate();
-
-  console.log(watch("category"));
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await mutation.mutateAsync({

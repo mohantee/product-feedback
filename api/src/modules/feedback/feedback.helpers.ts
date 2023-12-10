@@ -1,7 +1,10 @@
 import { Feedback } from "@prisma/client";
 import { getUpvotedFeedback } from "./feedback.service";
 
-export async function getUpvoteStatus(feedbacks: Feedback[], userId: string) {
+export async function getUpvoteStatus(
+  feedbacks: Feedback[],
+  userId?: string | null,
+) {
   const feedbacksWithUpvoteStatus = await Promise.all(
     feedbacks.map(async (feedback) => {
       let isUpvoted;

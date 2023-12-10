@@ -24,9 +24,16 @@ export const upvoteFeedback = (
 
 export const useUpvoteFeedback = () => {
   return useMutation({
+    onMutate: () => {
+      queryClient.cancelQueries({ queryKey: ["feedbackRoadmap", "feedbacks"] });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["feedbacks"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["feedbackRoadmap"],
       });
     },
     mutationFn: upvoteFeedback,
