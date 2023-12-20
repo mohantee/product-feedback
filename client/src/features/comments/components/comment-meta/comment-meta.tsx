@@ -2,9 +2,11 @@ import { useState } from "react";
 import "./comment-meta.css";
 import { Comment } from "@features/feedback/types";
 import { ReplyInput } from "../reply-input";
+import { useUser } from "@clerk/clerk-react";
 
 export function CommentMeta(props: Comment) {
   const [replyActive, setReplyActive] = useState(false);
+  const { isSignedIn } = useUser();
   return (
     <>
       <div
@@ -20,12 +22,14 @@ export function CommentMeta(props: Comment) {
               <p className="comment-meta__fullname">{props.fullName}</p>
               <p className="comment-meta__username">@{props.userName}</p>
             </div>
-            <button
-              className="comment-meta__reply"
-              onClick={() => setReplyActive(true)}
-            >
-              Reply
-            </button>
+            {isSignedIn ? (
+              <button
+                className="comment-meta__reply"
+                onClick={() => setReplyActive(true)}
+              >
+                Reply
+              </button>
+            ) : null}
           </div>
           <p className="comment-meta__content">
             {props.predecessorUsername && (

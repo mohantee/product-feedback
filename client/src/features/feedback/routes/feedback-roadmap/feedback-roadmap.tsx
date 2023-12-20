@@ -5,10 +5,15 @@ import { FaPlus } from "react-icons/fa";
 import { useFeedbackRoadmap } from "@features/feedback/api/get-feedback-roadmap";
 import { RoadmapItem } from "@features/feedback/components/roadmap-item/roadmap-item";
 import { useRoadmap } from "@features/feedback/api/get-roadmap";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
+import { HashLoader } from "react-spinners";
 
 export function FeedbackRoadmap() {
   const feedbackRoadmap = useFeedbackRoadmap();
   const { data: roadmap } = useRoadmap();
+  const navigate = useNavigate();
+  const { isSignedIn } = useUser();
 
   return (
     <div className="roadmap__container">
@@ -19,10 +24,19 @@ export function FeedbackRoadmap() {
             icon={<IoChevronBack />}
             status="blank"
             transition="underline"
+            onClick={() => navigate(-1)}
           />
           <h1 className="roadmap__heading">Roadmap</h1>
         </div>
-        <Button name="Add Feedback" icon={<FaPlus />} status="primary" />
+
+        {isSignedIn ? (
+          <Button
+            name="Add Feedback"
+            status="primary"
+            onClick={() => navigate("/feedbacks/create")}
+            icon={<FaPlus />}
+          />
+        ) : null}
       </div>
 
       <div className="roadmap__board">
@@ -42,7 +56,7 @@ export function FeedbackRoadmap() {
               />
             ))
           ) : (
-            <h1>Loading...</h1>
+            <HashLoader className="container" color="#AD1FEA" />
           )}
         </div>
         <div className="roadmap__in-progress flow">
@@ -61,7 +75,7 @@ export function FeedbackRoadmap() {
               />
             ))
           ) : (
-            <h1>Loading...</h1>
+            <HashLoader className="container" color="#AD1FEA" />
           )}
         </div>
         <div className="roadmap__live flow">
@@ -78,7 +92,7 @@ export function FeedbackRoadmap() {
               />
             ))
           ) : (
-            <h1>Loading...</h1>
+            <HashLoader className="container" color="#AD1FEA" />
           )}
         </div>
       </div>

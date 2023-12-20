@@ -7,7 +7,7 @@ export const axios = Axios.create({
 axios.interceptors.request.use(
   async (config) => {
     // @ts-expect-error Supresses Clerk not defined error
-    const token = await window.Clerk.session.getToken();
+    const token = await window.Clerk?.session?.getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

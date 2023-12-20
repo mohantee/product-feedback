@@ -1,3 +1,4 @@
+import { useUser } from "@clerk/clerk-react";
 import "./edit-feedback.css";
 import { Button } from "@components/elements/button";
 import { SelectMenu } from "@components/elements/select";
@@ -10,7 +11,7 @@ import { FeedbackEditIcon } from "@features/feedback/components/feedback-edit-ic
 import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 const CATEGORY_OPTIONS = [
   {
@@ -71,6 +72,7 @@ export function EditFeedback() {
   const { data: feedback } = useFeedback(_id);
   const editFeedback = useEditFeedback(_id);
   const navigate = useNavigate();
+  const { isSignedIn } = useUser();
 
   const {
     formState: { errors },
@@ -95,6 +97,10 @@ export function EditFeedback() {
 
   if (!feedback) {
     return <h1>Loading...</h1>;
+  }
+
+  if (!isSignedIn) {
+    return <Navigate to="/login" />;
   }
 
   return (

@@ -6,6 +6,8 @@ import "./feedback.css";
 import { IoChevronBack } from "react-icons/io5";
 import { CommentList } from "@features/comments/components/comment-list";
 import { CommentInput } from "@features/comments/components/comment-input";
+import { useUser } from "@clerk/clerk-react";
+import { HashLoader } from "react-spinners";
 
 interface Params {
   id: string;
@@ -15,9 +17,10 @@ export function Feedback() {
   const { id } = useParams<keyof Params>() as Params;
   const _id = parseInt(id);
   const { data: feedback } = useFeedback(_id);
+  const { isSignedIn } = useUser();
 
   if (!feedback) {
-    return <h1>Loading...</h1>;
+    return <HashLoader className="container" color="#AD1FEA" />;
   }
 
   return (
@@ -31,13 +34,15 @@ export function Feedback() {
             status="blank"
           />
         </Link>
-        <Link to={`/feedbacks/edit/${feedback.id}`}>
-          <Button name="Edit Feedback" status="accent" transition="opacity" />
-        </Link>
+        {isSignedIn ? (
+          <Link to={`/feedbacks/edit/${feedback.id}`}>
+            <Button name="Edit Feedback" status="accent" transition="opacity" />
+          </Link>
+        ) : null}
       </div>
       <FeedbackMeta {...feedback} />
       <CommentList comments={feedback.comments} />
-      <CommentInput feedbackId={_id} />
+      {isSignedIn ? <CommentInput feedbackId={_id} /> : null}
     </div>
   );
 }

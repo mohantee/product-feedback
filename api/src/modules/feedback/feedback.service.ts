@@ -62,11 +62,6 @@ export function getFeedbackByCategory(category: string) {
 export function getAllFeedback() {
   return prisma.feedback.findMany({
     include: {
-      comments: {
-        include: {
-          replies: true,
-        },
-      },
       _count: {
         select: {
           upvotes: true,

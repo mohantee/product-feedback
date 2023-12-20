@@ -4,6 +4,7 @@ import { Tag } from "@components/elements/tag";
 import { Hero } from "@components/hero";
 import { SearchParamProps } from "@features/feedback/types";
 import { useRoadmap } from "@features/feedback/api/get-roadmap";
+import { HashLoader } from "react-spinners";
 
 const options = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"] as const;
 
@@ -38,7 +39,7 @@ function Roadmap() {
   if (error) {
     return <h1>Error</h1>;
   } else if (!roadmap) {
-    return <h1>Loading...</h1>;
+    return <HashLoader className="container" color="#AD1FEA" />;
   }
 
   return (

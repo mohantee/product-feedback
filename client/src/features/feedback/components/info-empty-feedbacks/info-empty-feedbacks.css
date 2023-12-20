@@ -36,4 +36,12 @@
   button {
     margin: 0 auto;
   }
+
+  a {
+    color: hsl(var(--clr-primary));
+
+    &:visited {
+      color: hsl(var(--clr-primary));
+    }
+  }
 }

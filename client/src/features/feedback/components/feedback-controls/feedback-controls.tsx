@@ -7,6 +7,7 @@ import { SuggestionIcon } from "../suggestion-icon";
 import { useFeedbacks } from "@features/feedback/api/get-feedbacks";
 import { processFeedbacks } from "@features/feedback/helpers";
 import { SearchParamProps } from "@features/feedback/types";
+import { useUser } from "@clerk/clerk-react";
 
 const OPTIONS = [
   "Most Upvotes",
@@ -18,6 +19,7 @@ const OPTIONS = [
 export function FeedbackControls({ searchParams }: SearchParamProps) {
   const navigate = useNavigate();
   const { data: feedbacks } = useFeedbacks();
+  const { isSignedIn } = useUser();
   let numberOfFeedbacks;
 
   if (feedbacks) {
@@ -69,12 +71,14 @@ export function FeedbackControls({ searchParams }: SearchParamProps) {
           name="Filter"
         />
       </div>
-      <Button
-        status="primary"
-        name="Add Feedback"
-        icon={<FaPlus />}
-        onClick={() => navigate("/feedbacks/create")}
-      />
+      {isSignedIn ? (
+        <Button
+          name="Add Feedback"
+          status="primary"
+          onClick={() => navigate("/feedbacks/create")}
+          icon={<FaPlus />}
+        />
+      ) : null}
     </div>
   );
 }

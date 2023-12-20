@@ -2,13 +2,14 @@ import { Label } from "@components/form/label";
 import { Input } from "@components/form/input";
 import { TextArea } from "@components/form/text-area";
 import { Button } from "@components/elements/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FeedbackCreateIcon } from "@features/feedback/components/feedback-create-icon";
 import { IoChevronBack } from "react-icons/io5";
 import "./create-feedback.css";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useCreateFeedback } from "@features/feedback/api/create-feedback";
 import { SelectMenu } from "@components/elements/select";
+import { useUser } from "@clerk/clerk-react";
 
 const OPTIONS = [
   {
@@ -54,6 +55,7 @@ export function CreateFeedback() {
   });
   const mutation = useCreateFeedback();
   const navigate = useNavigate();
+  const { isSignedIn } = useUser();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await mutation.mutateAsync({
@@ -63,6 +65,10 @@ export function CreateFeedback() {
     navigate("/feedbacks");
   };
 
+  if (!isSignedIn) {
+    return <Navigate to="/login" />;
+  }
+
   return (
     <div className="create-feedback__container">
       <div className="btn-back">
@@ -70,7 +76,6 @@ export function CreateFeedback() {
           <Button
             name="Go back"
             status="blank"
-            onClick={() => {}}
             transition="underline"
             icon={<IoChevronBack />}
           />

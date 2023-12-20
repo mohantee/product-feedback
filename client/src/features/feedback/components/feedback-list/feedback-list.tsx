@@ -8,6 +8,8 @@ import { Feedback, SearchParamProps } from "@features/feedback/types";
 import { processFeedbacks } from "@features/feedback/helpers";
 import { InfoEmptyFeedbacks } from "@features/feedback/components/info-empty-feedbacks";
 import { useUpvoteFeedback } from "@features/feedback/api/upvote-feedback";
+import { useUser } from "@clerk/clerk-react";
+import { HashLoader } from "react-spinners";
 
 const categoryMap = {
   all: "All",
@@ -22,6 +24,8 @@ export function FeedbackMeta(props: Feedback) {
   const mutation = useUpvoteFeedback();
   const { id, title, content, category, _count, isUpvoted } = props;
   const navigate = useNavigate();
+  const { isSignedIn } = useUser();
+
   return (
     <li className="feedback-meta" onClick={() => navigate(`/feedbacks/${id}`)}>
       <div className="feedback-meta__container">
@@ -35,9 +39,12 @@ export function FeedbackMeta(props: Feedback) {
       <div className="feedback-meta__upvote-btn">
         <UpvoteButton
           count={_count.upvotes}
-          isPressed={isUpvoted}
+          isPressed={!!isUpvoted}
           onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             event.stopPropagation();
+            if (!isSignedIn) {
+              return console.log("Please login.");
+            }
             mutation.mutate({ id, isUpvoted });
           }}
         />
@@ -62,7 +69,7 @@ export function FeedbackList({ searchParams }: SearchParamProps) {
       searchParams.filter
     );
   } else {
-    return <h1>Loading...</h1>;
+    return <HashLoader color="#AD1FEA" className="container" />;
   }
 
   if (!processedFeedbacks.length) {

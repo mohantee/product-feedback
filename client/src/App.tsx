@@ -1,7 +1,7 @@
 import { FeedbackRoutes } from "@features/feedback/routes";
 import { queryClient } from "@lib/react-query";
 import { QueryClientProvider } from "react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import {
   ClerkProvider,
   SignedIn,
@@ -15,16 +15,21 @@ function App() {
   return (
     <ClerkProvider publishableKey={CLERK_PUB_KEY}>
       <QueryClientProvider client={queryClient}>
-        <SignedIn>
-          <BrowserRouter>
+        <BrowserRouter>
+          <SignedIn>
             <Routes>
               <Route element={<FeedbackRoutes />} path="/feedbacks/*" />
+              <Route path="*" element={<Navigate to="/feedbacks" />} />
             </Routes>
-          </BrowserRouter>
-        </SignedIn>
-        <SignedOut>
-          <RedirectToSignIn />
-        </SignedOut>
+          </SignedIn>
+          <SignedOut>
+            <Routes>
+              <Route element={<FeedbackRoutes />} path="/feedbacks/*" />
+              <Route element={<RedirectToSignIn />} path="/login" />
+              <Route path="*" element={<Navigate to="/feedbacks" />} />
+            </Routes>
+          </SignedOut>
+        </BrowserRouter>
       </QueryClientProvider>
     </ClerkProvider>
   );

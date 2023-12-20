@@ -1,10 +1,12 @@
 import { Button } from "@components/elements/button";
 import "./info-empty-feedbacks.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
+import { useUser } from "@clerk/clerk-react";
 
 export function InfoEmptyFeedbacks() {
   const navigate = useNavigate();
+  const { isSignedIn } = useUser();
   return (
     <div className="info-empty-feedback">
       <svg
@@ -132,12 +134,18 @@ export function InfoEmptyFeedbacks() {
           hearing about new ideas to improve our app.
         </p>
         <div>
-          <Button
-            name="Add Feedback"
-            status="primary"
-            onClick={() => navigate("/feedbacks/create")}
-            icon={<FaPlus />}
-          />
+          {isSignedIn ? (
+            <Button
+              name="Add Feedback"
+              status="primary"
+              onClick={() => navigate("/feedbacks/create")}
+              icon={<FaPlus />}
+            />
+          ) : (
+            <p>
+              Please <Link to="/login">login</Link> to submit a feedback.
+            </p>
+          )}
         </div>
       </article>
     </div>

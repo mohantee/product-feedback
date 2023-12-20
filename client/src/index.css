@@ -2,3 +2,8 @@
 @import "./styles/variables.css";
 @import "./styles/globals.css";
 @import "./styles/utilities.css";
+
+.container {
+  margin-inline: auto;
+  padding-top: 18rem;
+}

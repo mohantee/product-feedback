@@ -53,10 +53,18 @@ export async function getFeedbackByIdHandler(req: Request, res: Response) {
 export async function getAllFeedbackHandler(req: Request, res: Response) {
   const { userId } = req.auth;
 
-  const feedbacks = await getAllFeedback();
+  try {
+    const feedbacks = await getAllFeedback();
 
-  const feedbacksWithUpvoteStatus = await getUpvoteStatus(feedbacks, userId);
-  return res.status(200).send(feedbacksWithUpvoteStatus);
+    if (!userId) {
+      return res.status(200).send(feedbacks);
+    }
+
+    const feedbacksWithUpvoteStatus = await getUpvoteStatus(feedbacks, userId);
+    return res.status(200).send(feedbacksWithUpvoteStatus);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
 }
 
 export async function updateFeedbackHandler(req: Request, res: Response) {
@@ -74,10 +82,10 @@ export async function updateFeedbackHandler(req: Request, res: Response) {
     const existingFeedback = await getFeedbackById(id);
 
     if (!existingFeedback)
-      return res.status(500).send({ message: "Feedback ID doesn't exist" });
+      return res.status(400).send({ message: "Feedback ID doesn't exist" });
 
     if (!(existingFeedback.userId === body.userId)) {
-      return res.status(500).send({ message: "Authentication error" });
+      return res.status(400).send({ message: "Authentication error" });
     }
 
     const feedback = await updateFeedback(id, body);
@@ -169,13 +177,11 @@ export async function getFeedbacksByRoadmapStatus(req: Request, res: Response) {
     );
     const plannedWithUpvoteStatus = await getUpvoteStatus(planned, userId);
 
-    return res
-      .status(200)
-      .send({
-        live: liveWithUpvoteStatus,
-        in_progress: inProgressWithUpvoteStatus,
-        planned: plannedWithUpvoteStatus,
-      });
+    return res.status(200).send({
+      live: liveWithUpvoteStatus,
+      in_progress: inProgressWithUpvoteStatus,
+      planned: plannedWithUpvoteStatus,
+    });
   } catch (error) {
     return res.status(500).send({ error });
   }
