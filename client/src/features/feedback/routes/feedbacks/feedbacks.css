@@ -13,3 +13,9 @@
   gap: var(--gap);
   width: calc(100% - 255px - var(--gap));
 }
+
+@media (max-width: 64rem) {
+  .feedbacks-container {
+    flex-direction: column;
+  }
+}

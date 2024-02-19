@@ -5,6 +5,7 @@ import { Hero } from "@components/hero";
 import { SearchParamProps } from "@features/feedback/types";
 import { useRoadmap } from "@features/feedback/api/get-roadmap";
 import { HashLoader } from "react-spinners";
+import { UserButton, useClerk, useUser } from "@clerk/clerk-react";
 
 const options = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"] as const;
 
@@ -61,11 +62,25 @@ function Roadmap() {
 }
 
 export function Aside({ searchParams }: SearchParamProps) {
+  const { redirectToSignIn } = useClerk();
+  const { isSignedIn, user } = useUser();
   return (
     <div className="feedback-aside">
       <Hero />
       <CategoryFilters searchParams={searchParams} />
       <Roadmap />
+      <div className="feedback-sign-in">
+        {isSignedIn ? (
+          <div className="user-info">
+            {user.fullName}
+            <UserButton />
+          </div>
+        ) : (
+          <button onClick={() => redirectToSignIn()} className="sign">
+            Sign in
+          </button>
+        )}
+      </div>
     </div>
   );
 }

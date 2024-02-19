@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useDeleteFeedback } from "@features/feedback/api/delete-feedback";
 
 const CATEGORY_OPTIONS = [
   {
@@ -73,6 +74,7 @@ export function EditFeedback() {
   const editFeedback = useEditFeedback(_id);
   const navigate = useNavigate();
   const { isSignedIn } = useUser();
+  const mutation = useDeleteFeedback();
 
   const {
     formState: { errors },
@@ -202,8 +204,21 @@ export function EditFeedback() {
           />
         </div>
         <div className="edit-feedback__controls">
-          <Button name="Delete" status="alert" type="button" />
-          <Button name="Cancel" status="secondary" type="button" />
+          <Button
+            name="Delete"
+            status="alert"
+            onClick={() => {
+              mutation.mutate(id);
+              navigate("/feedbacks");
+            }}
+            type="button"
+          />
+          <Button
+            name="Cancel"
+            status="secondary"
+            onClick={() => navigate(-1)}
+            type="button"
+          />
           <Button name="Update" status="primary" />
         </div>
       </form>

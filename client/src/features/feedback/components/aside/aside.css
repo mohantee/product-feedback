@@ -5,6 +5,26 @@
   position: sticky;
   align-self: flex-start;
   top: 1rem;
+
+  .sign {
+    background-color: hsl(var(--clr-light-500));
+    border: none;
+    color: hsl(var(--clr-secondary));
+    text-decoration: underline;
+  }
+
+  .feedback-sign-in {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .user-info {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    color: hsl(var(--clr-dark-300));
+  }
 }
 
 .aside-tags {
@@ -47,5 +67,11 @@
 
   dd {
     font-weight: 700;
+  }
+}
+
+@media (max-width: 64rem) {
+  .feedback-aside {
+    flex-direction: row;
   }
 }
