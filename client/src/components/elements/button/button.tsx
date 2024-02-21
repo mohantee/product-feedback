@@ -1,3 +1,4 @@
+import { ClipLoader } from "react-spinners";
 import "./button.css";
 import { ReactElement } from "react";
 
@@ -9,6 +10,7 @@ interface Props {
   onClick?: () => void;
   disabled?: boolean;
   type?: "button" | "reset" | "submit";
+  loading?: boolean;
 }
 
 export function Button(props: Props) {
@@ -20,6 +22,7 @@ export function Button(props: Props) {
     type = "submit",
     transition = "opacity",
     onClick,
+    loading,
   } = props;
   return (
     <button
@@ -28,8 +31,9 @@ export function Button(props: Props) {
       data-transition={transition}
       onClick={onClick}
       type={type}
-      disabled={disabled}
+      disabled={disabled || loading}
     >
+      {loading ? <ClipLoader size="16" color="white" /> : null}
       {icon}
       {name}
     </button>

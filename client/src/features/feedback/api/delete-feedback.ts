@@ -8,8 +8,8 @@ export const deleteFeedback = (id: string) => {
 
 export const useDeleteFeedback = () => {
   return useMutation({
-    onMutate: () => {
-      queryClient.cancelQueries("feedbacks");
+    onMutate: async () => {
+      await queryClient.cancelQueries("feedbacks");
     },
     onSuccess: () => {
       queryClient.invalidateQueries("feedbacks");

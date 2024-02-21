@@ -10,6 +10,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useCreateFeedback } from "@features/feedback/api/create-feedback";
 import { SelectMenu } from "@components/elements/select";
 import { useUser } from "@clerk/clerk-react";
+import { ClipLoader } from "react-spinners";
 
 const OPTIONS = [
   {
@@ -146,7 +147,11 @@ export function CreateFeedback() {
         </div>
         <div className="create-feedback__controls">
           <Button name="Cancel" status="secondary" type="button" />
-          <Button name="Add Feedback" status="primary" />
+          <Button
+            name="Add Feedback"
+            status="primary"
+            loading={mutation.isLoading}
+          />
         </div>
       </form>
     </div>

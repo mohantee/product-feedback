@@ -1,5 +1,29 @@
 .hero {
   position: relative;
+
+  .sign {
+    border: none;
+    color: white;
+    text-decoration: underline;
+    background: none;
+  }
+
+  .feedback-sign-in {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .user-info {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.8rem;
+    color: white;
+  }
 }
 
 .hero__title {

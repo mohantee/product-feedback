@@ -207,10 +207,11 @@ export function EditFeedback() {
           <Button
             name="Delete"
             status="alert"
-            onClick={() => {
-              mutation.mutate(id);
+            onClick={async () => {
+              await mutation.mutateAsync(id);
               navigate("/feedbacks");
             }}
+            loading={mutation.isLoading}
             type="button"
           />
           <Button
@@ -219,7 +220,7 @@ export function EditFeedback() {
             onClick={() => navigate(-1)}
             type="button"
           />
-          <Button name="Update" status="primary" />
+          <Button name="Update" status="primary" loading={mutation.isLoading} />
         </div>
       </form>
     </div>

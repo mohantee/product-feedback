@@ -17,8 +17,8 @@ export const createFeedback = (data: CreateFeedbackDTO): Promise<Feedback> => {
 
 export const useCreateFeedback = () => {
   return useMutation({
-    onMutate: () => {
-      queryClient.cancelQueries("feedbacks");
+    onMutate: async () => {
+      await queryClient.cancelQueries("feedbacks");
     },
     onSuccess: () => {
       queryClient.invalidateQueries("feedbacks");
