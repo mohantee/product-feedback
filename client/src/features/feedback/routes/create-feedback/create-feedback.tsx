@@ -10,7 +10,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useCreateFeedback } from "@features/feedback/api/create-feedback";
 import { SelectMenu } from "@components/elements/select";
 import { useUser } from "@clerk/clerk-react";
-import { ClipLoader } from "react-spinners";
 
 const OPTIONS = [
   {
