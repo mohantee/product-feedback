@@ -79,7 +79,7 @@ export function FeedbackList({ searchParams }: SearchParamProps) {
   }
 
   return (
-    <ul className="flow feedback-list">
+    <ul className="flow">
       {processedFeedbacks?.map((feedback, i) => (
         <FeedbackMeta key={i} {...feedback} />
       ))}
