@@ -36,6 +36,7 @@ export function FeedbackMeta(props: Feedback) {
         <div className="feedback-meta__tags"></div>
         <Tag isPressed={false} text={categoryMap[category]} />
       </div>
+
       <div className="feedback-meta__upvote-btn">
         <UpvoteButton
           count={_count.upvotes}
@@ -49,6 +50,7 @@ export function FeedbackMeta(props: Feedback) {
           }}
         />
       </div>
+
       <div className="feedback-meta__comments">
         <FaComment style={{ color: "#CDD2EE" }} aria-hidden="true" />
         <p aria-label={`${_count.comments} comments`}>{_count.comments}</p>
@@ -77,7 +79,7 @@ export function FeedbackList({ searchParams }: SearchParamProps) {
   }
 
   return (
-    <ul className="flow">
+    <ul className="flow feedback-list">
       {processedFeedbacks?.map((feedback, i) => (
         <FeedbackMeta key={i} {...feedback} />
       ))}

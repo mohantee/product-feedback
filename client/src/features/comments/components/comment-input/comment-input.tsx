@@ -61,6 +61,7 @@ export function CommentInput({ feedbackId }: Props) {
           name="Post Comment"
           status="primary"
           disabled={!hasCharactersRemaining}
+          loading={mutation.isLoading}
         />
       </div>
     </form>

@@ -5,6 +5,7 @@
   position: sticky;
   align-self: flex-start;
   top: 1rem;
+  margin: 0 auto;
 }
 
 .aside-tags {
@@ -14,12 +15,15 @@
   background-color: hsl(var(--clr-light-300));
   flex-wrap: wrap;
   width: 255px;
+  min-width: 13.4375rem;
   padding: 1.5rem;
 }
 
 .feedback-roadmap {
   background-color: hsl(var(--clr-light-300));
   padding: 1rem 1.5rem;
+  width: 100%;
+  min-width: 12.1875rem;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -40,6 +44,12 @@
   grid-template-columns: 1fr auto;
   gap: 0.5rem;
 
+  dt {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
   dt,
   dd {
     color: hsl(var(--clr-dark-300));
@@ -53,5 +63,21 @@
 @media (max-width: 64rem) {
   .feedback-aside {
     flex-direction: row;
+    position: static;
+    margin: 0;
+  }
+
+  .aside-tags {
+    width: 100%;
+  }
+}
+
+@media (max-width: 48rem) {
+  .feedback-roadmap {
+    display: none;
+  }
+
+  .aside-tags {
+    display: none;
   }
 }

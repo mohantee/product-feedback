@@ -38,3 +38,21 @@
     margin-right: auto;
   }
 }
+
+@media (max-width: 48rem) {
+  .edit-feedback__container {
+    width: 90%;
+  }
+
+  .edit-feedback {
+    padding-inline: 1.5rem;
+  }
+
+  .edit-feedback__controls {
+    & > * {
+      width: 100%;
+    }
+
+    flex-direction: column-reverse;
+  }
+}

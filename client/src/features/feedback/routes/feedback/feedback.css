@@ -18,3 +18,9 @@
 .feedback-bar__link {
   text-decoration: none;
 }
+
+@media (max-width: 48rem) {
+  .feedback-container {
+    padding: 1.5rem;
+  }
+}

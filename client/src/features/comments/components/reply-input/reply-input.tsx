@@ -40,7 +40,7 @@ export function ReplyInput(props: Props) {
         rules={{ required: "Reply cannot be empty", maxLength: 225 }}
         autoFocus
       />
-      <Button name="Post Reply" status="primary" />
+      <Button name="Post Reply" status="primary" loading={mutation.isLoading} />
     </form>
   );
 }

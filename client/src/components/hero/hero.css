@@ -1,5 +1,13 @@
 .hero {
   position: relative;
+  background-color: red;
+  padding: 4.2rem 0.2rem;
+  background: radial-gradient(166.82% 166.82% at 103.9% -10.39%,
+      #e84d70 0%,
+      #a337f6 53.09%,
+      #28a7ed 100%);
+
+  border-radius: 0.625rem;
 
   .sign {
     border: none;
@@ -40,5 +48,24 @@
     font-size: var(--fs-body-300);
     color: hsl(var(--clr-light-300));
     opacity: 0.75;
+  }
+}
+
+@media (max-width: 64rem) {
+  .hero {
+    width: 100%;
+    min-width: 13.125rem;
+    max-width: 13.75rem;
+    padding: 5.2rem 0.2rem;
+  }
+
+  .hero__title {
+    top: initial;
+  }
+}
+
+@media (max-width: 48rem) {
+  .hero {
+    display: none;
   }
 }

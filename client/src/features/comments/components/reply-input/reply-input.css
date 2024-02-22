@@ -10,3 +10,19 @@
     width: 75%;
   }
 }
+
+@media (max-width: 48rem) {
+  .form-reply {
+    display: block;
+
+    .textarea-group {
+      margin-bottom: 0;
+      width: 100%;
+    }
+
+    button {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+  }
+}

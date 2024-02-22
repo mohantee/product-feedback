@@ -220,7 +220,11 @@ export function EditFeedback() {
             onClick={() => navigate(-1)}
             type="button"
           />
-          <Button name="Update" status="primary" loading={mutation.isLoading} />
+          <Button
+            name="Save Changes"
+            status="primary"
+            loading={editFeedback.isLoading}
+          />
         </div>
       </form>
     </div>

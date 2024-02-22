@@ -4,11 +4,11 @@ import { Tag } from "@components/elements/tag";
 import { Hero } from "@components/hero";
 import { SearchParamProps } from "@features/feedback/types";
 import { useRoadmap } from "@features/feedback/api/get-roadmap";
-import { HashLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 const options = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"] as const;
 
-function CategoryFilters({ searchParams }: SearchParamProps) {
+export function CategoryFilters({ searchParams }: SearchParamProps) {
   const { filter, setSearchParams } = searchParams;
   return (
     <ul className="aside-tags" aria-label="Apply category filters">
@@ -33,13 +33,11 @@ function CategoryFilters({ searchParams }: SearchParamProps) {
   );
 }
 
-function Roadmap() {
+export function Roadmap() {
   const { data: roadmap, error } = useRoadmap();
 
   if (error) {
     return <h1>Error</h1>;
-  } else if (!roadmap) {
-    return <HashLoader className="container" color="#AD1FEA" />;
   }
 
   return (
@@ -49,12 +47,53 @@ function Roadmap() {
         <Link to="/feedbacks/roadmap">View</Link>
       </div>
       <dl className="feedback-roadmap__meta">
-        <dt>Planned</dt>
-        <dd>{roadmap.planned_count}</dd>
-        <dt>In-progress</dt>
-        <dd>{roadmap.in_progress_count}</dd>
-        <dt>Live</dt>
-        <dd>{roadmap.live_count}</dd>
+        <dt>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="8"
+            height="8"
+            viewBox="0 0 8 8"
+            fill="none"
+          >
+            <circle cx="4" cy="4" r="4" fill="#F49F85" />
+          </svg>
+          Planned
+        </dt>
+        <dd>
+          {roadmap?.planned_count || <ClipLoader size={8} color="#F49F8%" />}
+        </dd>
+        <dt>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="8"
+            height="8"
+            viewBox="0 0 8 8"
+            fill="none"
+          >
+            <circle cx="4" cy="4" r="4" fill="#AD1FEA" />
+          </svg>
+          In-progress
+        </dt>
+        <dd>
+          {roadmap?.in_progress_count || (
+            <ClipLoader size={8} color="#AD1FEA" />
+          )}
+        </dd>
+        <dt>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="8"
+            height="8"
+            viewBox="0 0 8 8"
+            fill="none"
+          >
+            <circle cx="4" cy="4" r="4" fill="#62BCFA" />
+          </svg>
+          Live
+        </dt>
+        <dd>
+          {roadmap?.live_count || <ClipLoader size={8} color="#62BCFA" />}
+        </dd>
       </dl>
     </div>
   );

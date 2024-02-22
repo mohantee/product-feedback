@@ -45,3 +45,11 @@
     }
   }
 }
+
+@media (max-width: 48rem) {
+  .info-empty-feedback {
+    padding: 1rem;
+    width: 90%;
+    margin: 0 auto;
+  }
+}

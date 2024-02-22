@@ -47,3 +47,31 @@
 .roadmap__live {
   width: 33%;
 }
+
+@media (max-width: 48rem) {
+  .roadmap__container {
+    padding-top: 0;
+  }
+
+  .roadmap__header {
+    border-radius: 0;
+    padding: 1.5rem;
+  }
+
+  .roadmap__board {
+    flex-direction: column;
+  }
+
+  .roadmap__planned,
+  .roadmap__in-progress,
+  .roadmap__live {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .roadmap__section-description {
+    --flow-space: 0.25rem;
+    margin-bottom: 1.5rem;
+    margin-top: 0.25rem;
+  }
+}

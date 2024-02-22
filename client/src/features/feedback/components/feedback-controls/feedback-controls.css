@@ -35,3 +35,17 @@
 .feedback-controls__icon {
   align-self: center;
 }
+
+@media (max-width: 48rem) {
+  .feedback-controls {
+    border-radius: 0;
+  }
+
+  .feedback-controls__icon {
+    display: none;
+  }
+
+  .feedback-controls__count {
+    display: none;
+  }
+}

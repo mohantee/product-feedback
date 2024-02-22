@@ -49,7 +49,6 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-
   .chip[aria-pressed="false"]:hover,
   .chip[aria-pressed="true"]:hover {
     background-color: hsl(var(--clr-secondary-20pc));
@@ -80,5 +79,12 @@
 
   100% {
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 48rem) {
+  .chip {
+    flex-direction: row;
+    gap: 0.625rem;
   }
 }

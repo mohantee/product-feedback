@@ -50,3 +50,17 @@
   justify-content: end;
   gap: 1rem;
 }
+
+@media (max-width: 48rem) {
+  .create-feedback__container {
+    width: 90%;
+  }
+
+  .create-feedback {
+    padding-inline: 1.5rem;
+  }
+
+  .create-feedback__controls {
+    flex-direction: column-reverse;
+  }
+}
